@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
+// Note: For SEO, Next.js prefers metadata in Server Components. 
+// This title will work for the browser tab.
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
@@ -12,7 +14,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [copied, setCopied] = useState(false);
   const pathname = usePathname();
 
-  // Close mobile menu when page changes
+  useEffect(() => {
+    document.title = "Eloi Gospel Evangelical Church | One in a Million";
+  }, []);
+
   useEffect(() => setIsOpen(false), [pathname]);
 
   useEffect(() => {
@@ -28,7 +33,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Updated Nav Links to match our project folders
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
@@ -38,6 +42,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <title>Eloi Gospel Evangelical Church | E.G.E.C</title>
+        <meta name="description" content="Official portal for Eloi Gospel Evangelical Church. A One in a Million Generation raised for the last day revival." />
+        <link rel="icon" href="/church-logo2.png" />
+      </head>
       <body className="bg-[#FCFBFA] selection:bg-wine selection:text-white overflow-x-hidden antialiased">
 
         {/* HEADER SECTION */}
@@ -59,19 +68,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </svg>
                 </div>
                 <div className="relative w-14 h-14 rounded-full border-[1px] border-white shadow-xl overflow-hidden bg-white transition-all duration-500">
-                  {/* Ensure church-logo2.png is in your public folder */}
                   <Image src="/church-logo2.png" alt="EGEC Logo" fill className="object-contain p-1.5" />
                 </div>
               </div>
               <div className="hidden lg:flex flex-col">
-                <span className={`font-black text-base tracking-tighter uppercase leading-none transition-colors duration-500 ${scrolled ? 'text-wine' : 'text-wine'}`}>ELOI GOSPEL EVANGELICAL CHURCH</span>
+                <span className="font-black text-base text-wine tracking-tighter uppercase leading-none">ELOI GOSPEL EVANGELICAL CHURCH</span>
                 <span className="font-bold text-sky-500/60 text-[9px] tracking-[0.4em] uppercase leading-none mt-1.5">One In A Million Generation</span>
               </div>
             </Link>
 
             <nav className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => (
-                <Link key={link.name} href={link.href} className={`relative text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-500 group/link ${pathname === link.href ? 'text-wine' : scrolled ? 'text-gray-500 hover:text-wine' : 'text-gray-600 hover:text-wine'}`}>
+                <Link key={link.name} href={link.href} className={`relative text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-500 group/link ${pathname === link.href ? 'text-wine' : 'text-gray-500 hover:text-wine'}`}>
                   {link.name}
                   <span className={`absolute -bottom-2 left-0 h-[2px] bg-sky rounded-full transition-all duration-[600ms] ease-out ${pathname === link.href ? 'w-full' : 'w-0 group-hover/link:w-full'}`}></span>
                 </Link>
@@ -81,7 +89,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </button>
             </nav>
 
-            {/* Hamburger for Mobile */}
             <button onClick={() => setIsOpen(!isOpen)} className="md:hidden relative w-12 h-12 flex flex-col items-center justify-center z-[110] bg-white shadow-lg rounded-xl">
               <span className={`w-6 h-[2px] bg-wine transition-all ${isOpen ? 'rotate-45 translate-y-[2px]' : '-translate-y-1'}`}></span>
               <span className={`w-6 h-[2px] bg-wine mt-1 transition-all ${isOpen ? '-rotate-45 -translate-y-[4px]' : 'translate-y-1'}`}></span>
@@ -99,7 +106,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   {link.name}
                 </Link>
               ))}
-              <button onClick={() => setIsGiveModalOpen(true)} className="mt-4 bg-sky text-white py-6 rounded-2xl font-black uppercase tracking-widest text-xs">
+              <button onClick={() => { setIsOpen(false); setIsGiveModalOpen(true); }} className="mt-4 bg-sky text-white py-6 rounded-2xl font-black uppercase tracking-widest text-xs">
                 Sow a Seed
               </button>
             </div>
@@ -132,7 +139,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         )}
 
-        {/* MAIN CONTENT AREA */}
         <div className="min-h-screen">
           {children}
         </div>
@@ -153,13 +159,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </ul>
             </div>
             <div className="space-y-6">
-              <h4 className="text-sky font-black uppercase text-xs tracking-widest">Follow Us</h4>
+              <h4 className="text-sky font-black uppercase text-xs tracking-widest">Follow the Fire</h4>
               <div className="flex gap-4">
-                {['Facebook', 'YouTube', 'Instagram'].map((platform) => (
-                  <div key={platform} className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center hover:bg-sky transition-all cursor-pointer">
-                    <span className="font-bold text-sm">{platform[0]}</span>
-                  </div>
-                ))}
+                {/* Replace # with your actual links */}
+                <a href="https://facebook.com" target="_blank" className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center hover:bg-sky transition-all cursor-pointer">
+                  <span className="font-bold text-sm">FB</span>
+                </a>
+                <a href="https://youtube.com" target="_blank" className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center hover:bg-sky transition-all cursor-pointer">
+                  <span className="font-bold text-sm">YT</span>
+                </a>
+                <a href="https://instagram.com" target="_blank" className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center hover:bg-sky transition-all cursor-pointer">
+                  <span className="font-bold text-sm">IG</span>
+                </a>
               </div>
             </div>
           </div>
@@ -173,9 +184,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           body { font-family: 'Inter', sans-serif; }
           @keyframes modalUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
           .animate-modalUp { animation: modalUp 0.5s ease-out forwards; }
-          .reveal { opacity: 0; transition: all 1s ease-out; }
-          .reveal-visible { opacity: 1; transform: translate(0); }
-          .reveal-up { transform: translateY(40px); }
         `}</style>
       </body>
     </html>
