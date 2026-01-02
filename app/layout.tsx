@@ -73,18 +73,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
               <div className="hidden lg:flex flex-col">
                 <span className="font-black text-base text-wine tracking-tighter uppercase leading-none">ELOI GOSPEL EVANGELICAL CHURCH</span>
-                <span className="font-bold text-sky-500/60 text-[9px] tracking-[0.4em] uppercase leading-none mt-1.5">One In A Million Generation</span>
+                <span className="font-bold text-sky-500/60 text-[11px] tracking-[0.4em] uppercase leading-none mt-1.5">One In A Million Generation</span>
               </div>
             </Link>
 
             <nav className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => (
-                <Link key={link.name} href={link.href} className={`relative text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-500 group/link ${pathname === link.href ? 'text-wine' : 'text-gray-500 hover:text-wine'}`}>
+                <Link key={link.name} href={link.href} className={`relative text-[13px] font-black uppercase tracking-[0.2em] transition-all duration-500 group/link ${pathname === link.href ? 'text-wine' : 'text-white-500 hover:text-wine'}`}>
                   {link.name}
                   <span className={`absolute -bottom-2 left-0 h-[2px] bg-sky rounded-full transition-all duration-[600ms] ease-out ${pathname === link.href ? 'w-full' : 'w-0 group-hover/link:w-full'}`}></span>
                 </Link>
               ))}
-              <button onClick={() => setIsGiveModalOpen(true)} className="bg-wine text-white px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest shadow-2xl transition-all duration-500 hover:bg-sky hover:scale-105 active:scale-95">
+              <button onClick={() => setIsGiveModalOpen(true)} className="bg-wine text-white px-8 py-3 rounded-full text-[12px] font-black uppercase tracking-widest shadow-2xl transition-all duration-500 hover:bg-sky hover:scale-105 active:scale-95">
                 Give Online
               </button>
             </nav>
