@@ -39,6 +39,9 @@ export default function HomePage() {
               <h2 className="text-white font-bold text-lg md:text-3xl tracking-[0.15em] uppercase">
                 Eloi Gospel Evangelical Church
               </h2>
+              <h2 className="text-sky font-bold text-lg md:text-2xl tracking-[0.15em] uppercase">
+                FAITH'S INTERNATIONAL MINISTRY
+              </h2>
             </div>
           </div>
 
