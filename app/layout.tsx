@@ -9,6 +9,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [isOpen, setIsOpen] = useState(false);
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false); // New state for button
   const [copied, setCopied] = useState(false);
   const pathname = usePathname();
 
@@ -20,12 +21,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   // Close mobile menu when page changes
   useEffect(() => setIsOpen(false), [pathname]);
 
-  // Handle Scroll Effect - Enhanced for ultra-transparency
+  // Handle Scroll Effects
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+      setShowBackToTop(window.scrollY > 400); // Show button after 400px scroll
+    };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText("0123456789");
@@ -69,7 +77,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </svg>
                 </div>
                 <div className="relative w-14 h-14 rounded-full border-2 border-wine/20 shadow-md overflow-hidden bg-white">
-                  {/* FIXED: Added 'sizes' prop to remove Dev Tool warning */}
                   <Image src="/church-logo2.png" alt="EGEC Logo" fill sizes="62px" className="object-contain " />
                 </div>
               </div>
@@ -121,7 +128,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
 
-        {/* --- MOBILE MENU WITH SYMMETRICAL UNDISPLAY --- */}
+        {/* --- MOBILE MENU --- */}
         <div className={`fixed inset-0 z-[90] md:hidden transition-all duration-700 ${isOpen ? 'visible' : 'invisible'}`}>
           <div
             className={`absolute inset-0 bg-wine/20 backdrop-blur-3xl transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
@@ -133,7 +140,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Link
                   key={link.name}
                   href={link.href}
-                  /* FIXED: Delay set to 0ms on close for clean exit */
                   style={{ transitionDelay: isOpen ? `${i * 100}ms` : '0ms' }}
                   className={`text-3xl font-black uppercase tracking-tight transition-all duration-700 ${isOpen ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'} ${pathname === link.href ? 'text-wine' : 'text-gray-900 hover:text-wine'}`}
                 >
@@ -142,7 +148,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               ))}
               <button
                 onClick={() => { setIsOpen(false); setIsGiveModalOpen(true); }}
-                /* FIXED: Delay set to 0ms on close for clean exit */
                 style={{ transitionDelay: isOpen ? '400ms' : '0ms' }}
                 className={`bg-sky text-white py-5 rounded-3xl font-black uppercase tracking-widest text-xs shadow-2xl transition-all duration-700 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
               >
@@ -181,6 +186,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="min-h-screen">
           {children}
         </main>
+
+        {/* --- PREMIUM BACK TO TOP BUTTON --- */}
+        <button
+          onClick={scrollToTop}
+          className={`fixed bottom-8 right-8 z-[150] w-14 h-14 bg-wine text-white rounded-2xl shadow-2xl flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-sky hover:scale-110 active:scale-90 group ${showBackToTop ? 'translate-y-0 opacity-100 visible' : 'translate-y-20 opacity-0 invisible'
+            }`}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            className="w-6 h-6 fill-none stroke-current stroke-[3] transition-transform duration-500 group-hover:-translate-y-1"
+          >
+            <path d="M12 19V5M5 12l7-7 7 7" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
 
         <footer className="bg-wine pt-20 pb-10 text-white px-6">
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16">
