@@ -16,7 +16,7 @@ export default function SermonsPage() {
             date: 'October 27, 2023',
             category: 'Revival',
             imageUrl: 'https://images.unsplash.com/photo-1542867015-7096c429bf70?q=80&w=2070&auto=format&fit=crop',
-            videoUrl: 'https://www.youtube.com/@your-channel-name'
+            videoUrl: 'https://www.youtube.com/@your-channel-name' 
         },
         {
             id: '2',
@@ -131,8 +131,8 @@ export default function SermonsPage() {
                             key={category}
                             onClick={() => setActiveCategory(category)}
                             className={`px-6 py-3 rounded-full font-bold text-[10px] uppercase tracking-widest transition-all ${activeCategory === category
-                                ? 'bg-wine text-white shadow-lg'
-                                : 'bg-white text-gray-400 border border-gray-100 hover:border-sky'
+                                    ? 'bg-wine text-white shadow-lg'
+                                    : 'bg-white text-gray-400 border border-gray-100 hover:border-sky'
                                 }`}
                         >
                             {category}
@@ -180,7 +180,7 @@ export default function SermonsPage() {
                     </p>
                     <Link href="https://www.youtube.com/@your-channel-name" target="_blank" rel="noopener noreferrer" className="inline-block relative z-10">
                         <button className="flex items-center gap-3 justify-center px-12 py-5 bg-white text-wine rounded-xl font-black uppercase tracking-widest text-xs hover:bg-sky hover:text-white transition-all shadow-xl mt-6">
-                            Visit Channel
+                           Visit Channel
                         </button>
                     </Link>
                 </div>

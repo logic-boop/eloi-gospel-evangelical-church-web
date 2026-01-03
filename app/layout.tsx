@@ -9,7 +9,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [isOpen, setIsOpen] = useState(false);
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [showBackToTop, setShowBackToTop] = useState(false); // New state for button
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [isPartnershipOpen, setIsPartnershipOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const pathname = usePathname();
 
@@ -19,13 +20,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   }, []);
 
   // Close mobile menu when page changes
-  useEffect(() => setIsOpen(false), [pathname]);
+  useEffect(() => {
+    setIsOpen(false);
+    setIsPartnershipOpen(false);
+  }, [pathname]);
 
   // Handle Scroll Effects
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-      setShowBackToTop(window.scrollY > 400); // Show button after 400px scroll
+      setShowBackToTop(window.scrollY > 400);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -46,6 +50,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     { name: 'About', href: '/about' },
     { name: 'Sermons', href: '/sermons' },
     { name: 'Plan Visit', href: '/plan-your-visit' },
+  ];
+
+  const partners = [
+    { name: 'CAFO Global', href: '/partnerships/cafo', sub: 'Christian Alliance for Orphans' },
+    { name: 'CINO Nigeria', href: '/partnerships/cino', sub: 'Initiative for Nigerian Orphans' }
   ];
 
   return (
@@ -81,7 +90,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </div>
               </div>
 
-              {/* Church Name - Hidden at 1140px and below */}
               <div className="hidden min-[1141px]:flex flex-col">
                 <span className={`font-black text-lg tracking-tighter uppercase leading-none transition-colors duration-500 ${scrolled ? 'text-wine/80' : 'text-wine'}`}>
                   ELOI GOSPEL EVANGELICAL CHURCH (EGEC)
@@ -94,34 +102,42 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-10">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`group relative text-[13px] font-black uppercase tracking-widest transition-all duration-300 ${pathname === link.href ? 'text-wine' : 'text-gray-800'
-                    }`}
-                >
-                  <span className="relative z-10 transition-transform duration-500 block group-hover:-translate-y-1.5 group-hover:text-wine">
-                    {link.name}
-                  </span>
-                  <span className={`absolute -bottom-1 left-0 h-[3px] bg-sky rounded-full transition-all duration-500 ease-out ${pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'
-                    }`}></span>
+              {navLinks.slice(0, 3).map((link) => (
+                <Link key={link.name} href={link.href} className={`group relative text-[13px] font-black uppercase tracking-widest transition-all duration-300 ${pathname === link.href ? 'text-wine' : 'text-gray-800'}`}>
+                  <span className="relative z-10 transition-transform duration-500 block group-hover:-translate-y-1.5 group-hover:text-wine">{link.name}</span>
+                  <span className={`absolute -bottom-1 left-0 h-[3px] bg-sky rounded-full transition-all duration-500 ease-out ${pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
                 </Link>
               ))}
-              <button
-                onClick={() => setIsGiveModalOpen(true)}
-                className="relative overflow-hidden bg-wine text-white px-8 py-3.5 rounded-full text-[11px] font-black uppercase tracking-widest shadow-xl transition-all duration-500 hover:bg-sky hover:scale-105 group"
-              >
+
+              {/* PARTNERSHIPS DROPDOWN */}
+              <div className="relative group/drop" onMouseEnter={() => setIsPartnershipOpen(true)} onMouseLeave={() => setIsPartnershipOpen(false)}>
+                <button className="text-[13px] font-black uppercase tracking-widest text-gray-800 flex items-center gap-2 group-hover/drop:text-wine transition-colors">
+                  Partnerships
+                  <svg className={`w-3 h-3 transition-transform duration-500 ${isPartnershipOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div className={`absolute top-full -left-4 w-64 bg-white shadow-2xl rounded-[2rem] p-4 mt-2 transition-all duration-500 origin-top border border-gray-100 ${isPartnershipOpen ? 'scale-y-100 opacity-100 visible' : 'scale-y-0 opacity-0 invisible'}`}>
+                  {partners.map((p) => (
+                    <Link key={p.name} href={p.href} className="block p-4 hover:bg-gray-50 rounded-2xl transition-all group/item">
+                      <p className="text-[11px] font-black text-wine uppercase tracking-widest group-hover/item:text-sky transition-colors">{p.name}</p>
+                      <p className="text-[9px] text-gray-400 mt-1 uppercase font-bold tracking-tighter">{p.sub}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <Link href="/plan-your-visit" className={`group relative text-[13px] font-black uppercase tracking-widest transition-all duration-300 ${pathname === '/plan-your-visit' ? 'text-wine' : 'text-gray-800'}`}>
+                <span className="relative z-10 transition-transform duration-500 block group-hover:-translate-y-1.5 group-hover:text-wine">Plan Visit</span>
+                <span className={`absolute -bottom-1 left-0 h-[3px] bg-sky rounded-full transition-all duration-500 ease-out ${pathname === '/plan-your-visit' ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+              </Link>
+
+              <button onClick={() => setIsGiveModalOpen(true)} className="relative overflow-hidden bg-wine text-white px-8 py-3.5 rounded-full text-[11px] font-black uppercase tracking-widest shadow-xl transition-all duration-500 hover:bg-sky hover:scale-105 group">
                 <span className="relative z-10">Give Online</span>
                 <div className="absolute inset-0 bg-white/20 -translate-x-full transition-transform duration-700 group-hover:translate-x-0"></div>
               </button>
             </nav>
 
             {/* Mobile Toggle */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden w-12 h-12 flex flex-col items-center justify-center z-[110] bg-gray-50/50 backdrop-blur-md rounded-xl border border-gray-200"
-            >
+            <button onClick={() => setIsOpen(!isOpen)} className="md:hidden w-12 h-12 flex flex-col items-center justify-center z-[110] bg-gray-50/50 backdrop-blur-md rounded-xl border border-gray-200">
               <span className={`w-6 h-[2.5px] bg-wine transition-all duration-500 ${isOpen ? 'rotate-45 translate-y-[2.5px]' : '-translate-y-1'}`}></span>
               <span className={`w-6 h-[2.5px] bg-wine mt-1 transition-all duration-500 ${isOpen ? '-rotate-45 -translate-y-[4px]' : 'translate-y-1'}`}></span>
             </button>
@@ -130,27 +146,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* --- MOBILE MENU --- */}
         <div className={`fixed inset-0 z-[90] md:hidden transition-all duration-700 ${isOpen ? 'visible' : 'invisible'}`}>
-          <div
-            className={`absolute inset-0 bg-wine/20 backdrop-blur-3xl transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
-            onClick={() => setIsOpen(false)}
-          ></div>
+          <div className={`absolute inset-0 bg-wine/20 backdrop-blur-3xl transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`} onClick={() => setIsOpen(false)}></div>
           <nav className={`absolute top-0 left-0 w-full bg-white shadow-2xl px-10 pt-28 pb-12 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
             <div className="flex flex-col gap-6">
               {navLinks.map((link, i) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  style={{ transitionDelay: isOpen ? `${i * 100}ms` : '0ms' }}
-                  className={`text-3xl font-black uppercase tracking-tight transition-all duration-700 ${isOpen ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'} ${pathname === link.href ? 'text-wine' : 'text-gray-900 hover:text-wine'}`}
-                >
+                <Link key={link.name} href={link.href} style={{ transitionDelay: isOpen ? `${i * 100}ms` : '0ms' }} className={`text-3xl font-black uppercase tracking-tight transition-all duration-700 ${isOpen ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'} ${pathname === link.href ? 'text-wine' : 'text-gray-900 hover:text-wine'}`}>
                   {link.name}
                 </Link>
               ))}
-              <button
-                onClick={() => { setIsOpen(false); setIsGiveModalOpen(true); }}
-                style={{ transitionDelay: isOpen ? '400ms' : '0ms' }}
-                className={`bg-sky text-white py-5 rounded-3xl font-black uppercase tracking-widest text-xs shadow-2xl transition-all duration-700 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-              >
+              <div className="h-px bg-gray-100 my-2" />
+              {partners.map((p, i) => (
+                <Link key={p.name} href={p.href} style={{ transitionDelay: isOpen ? `${(navLinks.length + i) * 100}ms` : '0ms' }} className={`text-xl font-black uppercase text-sky transition-all duration-700 ${isOpen ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'}`}>
+                  {p.name}
+                </Link>
+              ))}
+              <button onClick={() => { setIsOpen(false); setIsGiveModalOpen(true); }} style={{ transitionDelay: isOpen ? '600ms' : '0ms' }} className={`bg-sky text-white py-5 rounded-3xl font-black uppercase tracking-widest text-xs shadow-2xl transition-all duration-700 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
                 Sow a Seed
               </button>
             </div>
@@ -193,10 +203,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           className={`fixed bottom-8 right-8 z-[150] w-14 h-14 bg-wine text-white rounded-2xl shadow-2xl flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-sky hover:scale-110 active:scale-90 group ${showBackToTop ? 'translate-y-0 opacity-100 visible' : 'translate-y-20 opacity-0 invisible'
             }`}
         >
-          <svg
-            viewBox="0 0 24 24"
-            className="w-6 h-6 fill-none stroke-current stroke-[3] transition-transform duration-500 group-hover:-translate-y-1"
-          >
+          <svg viewBox="0 0 24 24" className="w-6 h-6 fill-none stroke-current stroke-[3] transition-transform duration-500 group-hover:-translate-y-1">
             <path d="M12 19V5M5 12l7-7 7 7" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
@@ -234,13 +241,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <style jsx global>{`
           @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
           body { font-family: 'Inter', sans-serif; }
-          
           @keyframes premiumUp {
             from { opacity: 0; transform: scale(0.95) translateY(50px); filter: blur(10px); }
             to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
           }
           @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-          
           .animate-premiumUp { animation: premiumUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
           .animate-fadeIn { animation: fadeIn 0.8s ease forwards; }
         `}</style>

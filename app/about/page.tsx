@@ -1,7 +1,7 @@
 "use client";
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 export default function AboutPage() {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -18,166 +18,206 @@ export default function AboutPage() {
     }, []);
 
     return (
-        <main className={`transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} bg-[#FDFCFB]`}>
+        <main className={`transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} bg-white`}>
 
-            {/* SECTION 1: HEADER & MANDATE */}
-            <section className="pt-48 pb-20 px-6">
-                <div className="max-w-6xl mx-auto">
-                    <div className="reveal reveal-up border-l-4 border-sky pl-6 mb-12">
-                        <h4 className="text-sky font-black uppercase tracking-[0.4em] text-[10px] mb-2">Our Identity</h4>
-                        <h1 className="text-4xl md:text-6xl font-black text-wine uppercase tracking-tight">
-                            Eloi Gospel <br /> Evangelical Church
-                        </h1>
+            {/* --- 1. HERO SECTION: THE FOUNDATIONAL CALL --- */}
+            <section className="relative min-h-[95vh] w-full flex flex-col items-center justify-center overflow-hidden bg-wine pt-32 px-6">
+                <div className="absolute inset-0 z-0 opacity-30">
+                    <div className="absolute inset-0 bg-gradient-to-b from-wine via-transparent to-wine z-10"></div>
+                    {/* Symbolic image of a church foundation or prophetic vision */}
+                    <Image
+                        src="https://images.unsplash.com/photo-1543780332-901b17b203c8?q=80&w=2070&auto=format&fit=crop"
+                        alt="Foundational Vision"
+                        fill
+                        className="object-cover"
+                    />
+                </div>
+
+                <div className="relative z-20 text-center max-w-5xl">
+                    <div className="reveal reveal-up inline-block px-8 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full mb-10">
+                        <span className="text-sky font-black uppercase tracking-[0.5em] text-[11px]">Our Story. Our Mandate.</span>
                     </div>
+                    <h1 className="reveal reveal-up delay-100 text-5xl md:text-8xl font-black text-white uppercase tracking-tighter leading-none mb-8">
+                        The Fire <br /> <span className="text-white/30 italic">On The Altar</span>
+                    </h1>
+                    <p className="reveal reveal-up delay-200 text-xl md:text-2xl text-white/70 font-light max-w-3xl mx-auto italic leading-relaxed">
+                        "Built on a divine encounter, Eloi Gospel Evangelical Church carries a mandate to restore souls and activate destinies across nations."
+                    </p>
+                </div>
+            </section>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                        <div className="reveal reveal-left space-y-6">
-                            <h3 className="text-2xl md:text-3xl font-bold text-gray-800 leading-tight">
-                                A <span className="text-wine italic">One in a Million</span> Prophetic Vessel for the Final Revival.
-                            </h3>
-                            <p className="text-gray-500 leading-relaxed text-lg font-light">
-                                In an age of spiritual lukewarmness, <strong>Eloi Gospel Evangelical Church</strong> stands as a furnace of fire. We are not just another denomination; we are a prophetic solution raised to win the souls of humanity back to the Creator.
-                            </p>
-                            <p className="text-gray-500 leading-relaxed text-lg font-light">
-                                Our mission is built on the urgency of the hour, focused on emptying hell and filling heaven through the raw manifestation of God's power.
-                            </p>
-                        </div>
-
-                        {/* DETAILED MISSION BOX */}
-                        <div className="reveal reveal-right bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-gray-100 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-sky/5 rounded-full -mr-10 -mt-10"></div>
-                            <h4 className="text-wine font-black uppercase tracking-widest text-xs mb-8 border-b border-gray-100 pb-4">The Mandate Pillars</h4>
-                            <div className="space-y-6">
-                                {[
-                                    { title: "Restoration", desc: "Restoring the altar of prayer and power in the hearts of men." },
-                                    { title: "Evangelism", desc: "Aggressive soul-winning to secure the global harvest." },
-                                    { title: "Tangibility", desc: "Creating a sanctuary where God's presence is undeniable." }
-                                ].map((item, i) => (
-                                    <div key={i} className="flex gap-4">
-                                        <div className="w-2 h-2 mt-2 rounded-full bg-sky shadow-[0_0_10px_rgba(0,191,255,0.8)]"></div>
-                                        <div>
-                                            <h5 className="font-bold text-wine text-sm uppercase tracking-wide">{item.title}</h5>
-                                            <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
-                                        </div>
-                                    </div>
-                                ))}
+            {/* --- 2. THE APOSTOLIC JOURNEY: FOUNDER'S BIOGRAPHY --- */}
+            <section className="py-32 px-6 bg-[#FCFBFA]">
+                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+                    <div className="reveal reveal-left relative">
+                        <div className="relative aspect-[4/5] rounded-[4rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] border-[12px] border-white">
+                            {/* Founder's Image - Professional Portrait */}
+                            <Image
+                                src="https://images.unsplash.com/photo-1616409890141-94578e6308ba?q=80&w=1974&auto=format&fit=crop" // Placeholder for Apostle's portrait
+                                alt="Apostle Dr. Moses Babatunde Olubode Famose"
+                                fill
+                                className="object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-wine/70 to-transparent"></div>
+                            <div className="absolute bottom-10 left-10 right-10">
+                                <p className="text-white font-black text-2xl uppercase tracking-tighter leading-snug">
+                                    Apostle Dr. Moses <br /> Olubode Famose
+                                </p>
+                                <p className="text-sky font-bold text-[10px] uppercase tracking-widest mt-2">Founder & Senior Pastor</p>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
 
-            {/* SECTION 2: THE FOUNDER */}
-            <section className="py-24 bg-wine text-white px-6 relative overflow-hidden">
-                {/* Subtle texture background */}
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-
-                <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
-
-                    {/* IMAGE COLUMN */}
-                    <div className="lg:col-span-5 reveal reveal-scale">
-                        <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl border-8 border-white/5 group">
-                            <Image
-                                src="/apostle.png"
-                                alt="Apostle Dr. Moses B. Olubode Famose"
-                                fill
-                                className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-wine via-transparent to-transparent opacity-40"></div>
-                        </div>
-                    </div>
-
-                    {/* BIO COLUMN */}
-                    <div className="lg:col-span-7 space-y-8 reveal reveal-right">
-                        <div>
-                            <h4 className="text-sky font-black uppercase tracking-[0.4em] text-[10px] mb-4">The Visionary Mantle</h4>
-                            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">
-                                Apostle Dr. <br /> Moses B. Olubode Famose
-                            </h2>
-                            <div className="h-1 w-16 bg-sky mt-6 rounded-full"></div>
-                        </div>
-
-                        <div className="space-y-6 text-white/70 text-lg font-light leading-relaxed">
+                    <div className="reveal reveal-right space-y-10">
+                        <h4 className="text-wine font-black uppercase tracking-[0.5em] text-xs">The Vision Bearer</h4>
+                        <h2 className="text-4xl md:text-6xl font-black text-wine uppercase tracking-tighter leading-none">
+                            A Prophetic <br /> <span className="text-gray-300">Commission</span>
+                        </h2>
+                        <div className="space-y-6 text-gray-600 text-lg leading-relaxed font-light">
                             <p>
-                                Commissioned by God with a unique apostolic mantle, his life is a testament to the power of a "Last Day Revival" fire. He has been used by God to plant **Eloi Gospel Evangelical Church** as a ministry that transcends regular tradition.
+                                **Apostle Dr. Moses Babatunde Olubode Famose** is a seasoned apostolic voice raised with a distinct prophetic mandate for this generation. His journey is marked by profound divine encounters that shaped the very foundation of Eloi Gospel Evangelical Church.
                             </p>
                             <p>
-                                Through his leadership at the **Express Building, Ring Road, Ibadan**, he has mentored thousands into their spiritual inheritance, ensuring the church operates in full spiritual authority.
+                                Called to "fan the flames of revival," Apostle Famose's ministry spans over two decades, touching lives through powerful biblical teachings, demonstrative acts of God's power, and a relentless pursuit of souls. His global impact led to his appointment as the **Africa Continent Representative for CAFO**, championing the cause of vulnerable children with both spiritual fervor and strategic excellence.
                             </p>
                         </div>
-
-                        {/* FOUNDER'S QUOTE */}
-                        <div className="bg-white/5 border-l-2 border-sky p-6 rounded-r-xl italic">
-                            <p className="text-white text-lg font-medium">
-                                "We are here for the divine announcement of your victory. My God (ELOI) never fails."
-                            </p>
-                        </div>
+                        <Link href="/sermons" className="inline-block bg-sky text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-wine transition-all shadow-xl">
+                            Hear His Teachings
+                        </Link>
                     </div>
                 </div>
             </section>
 
-            {/* SECTION 3: VISION & VALUES */}
-            <section className="py-24 px-6 bg-white">
-                <div className="max-w-6xl mx-auto">
+            {/* --- 3. THE "ONE IN A MILLION" MANDATE --- */}
+            <section className="py-32 bg-white px-6">
+                <div className="max-w-7xl mx-auto">
+                    <div className="text-center mb-20">
+                        <h4 className="reveal reveal-up text-sky font-black uppercase tracking-[0.6em] text-xs">Our Core Identity</h4>
+                        <h2 className="reveal reveal-up delay-100 text-5xl md:text-7xl font-black text-wine uppercase tracking-tighter leading-none">
+                            One in a Million <br /> <span className="text-gray-300 italic">Generation</span>
+                        </h2>
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                        <div className="reveal reveal-up space-y-4">
-                            <span className="text-sky font-black text-xs uppercase tracking-widest">Vision</span>
-                            <h4 className="text-wine font-bold text-2xl uppercase tracking-tight">Spiritual Awakening</h4>
-                            <p className="text-gray-500 font-light leading-relaxed">To raise a global army of believers who walk in the reality of the prophetic and the power of the Holy Spirit.</p>
-                        </div>
-                        <div className="reveal reveal-up delay-100 space-y-4">
-                            <span className="text-sky font-black text-xs uppercase tracking-widest">Mission</span>
-                            <h4 className="text-wine font-bold text-2xl uppercase tracking-tight">Kingdom Expansion</h4>
-                            <p className="text-gray-500 font-light leading-relaxed">To evangelize the world with the message of Christ, confirming the Word with signs and wonders following.</p>
-                        </div>
-                        <div className="reveal reveal-up delay-200 space-y-4">
-                            <span className="text-sky font-black text-xs uppercase tracking-widest">Values</span>
-                            <h4 className="text-wine font-bold text-2xl uppercase tracking-tight">The ELOI Way</h4>
-                            <p className="text-gray-500 font-light leading-relaxed">Holiness, Integrity, Prophetic Precision, and Unconditional Love for all humanity.</p>
-                        </div>
+                        {[
+                            { title: "Prophetic Activation", desc: "Unlocking the divine destiny within every believer through revelatory teaching and personal impartation.", icon: "🔥" },
+                            { title: "Soul Restoration", desc: "Leading individuals back to God through genuine encounters with the Holy Spirit and biblical truth.", icon: "🕊️" },
+                            { title: "Global Impact", desc: "Extending God's kingdom beyond borders, starting with our work for Nigerian orphans and reaching the world.", icon: "🌍" }
+                        ].map((mandate, i) => (
+                            <div key={i} className="reveal reveal-up group bg-[#FCFBFA] p-12 rounded-[3.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 hover:-translate-y-4 transition-all duration-700" style={{ transitionDelay: `${i * 150}ms` }}>
+                                <div className="text-4xl text-sky mb-8">{mandate.icon}</div>
+                                <h4 className="text-wine font-black uppercase tracking-widest text-lg mb-4">{mandate.title}</h4>
+                                <p className="text-gray-500 font-light leading-relaxed">{mandate.desc}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
 
-            {/* FINAL CTA - CONNECTS TO PLAN YOUR VISIT */}
-            <section className="py-24 bg-[#F9F8F6] text-center px-6">
-                <div className="max-w-4xl mx-auto space-y-8 reveal reveal-up">
-                    <h2 className="text-4xl md:text-5xl font-black text-wine uppercase tracking-tighter">Join the Movement</h2>
-                    <p className="text-xl text-gray-400 font-light max-w-xl mx-auto italic">
-                        Experience the raw presence of God at Eloi Gospel Evangelical Church this Sunday.
+            {/* --- 4. OUR BELIEFS & VALUES (ACCORDION/EXPANDABLE) --- */}
+            <section className="py-32 bg-[#F9F8F6] px-6">
+                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                    <div className="reveal reveal-left space-y-8">
+                        <h4 className="text-wine font-black uppercase tracking-[0.5em] text-xs">The Unshakable Foundation</h4>
+                        <h2 className="text-4xl md:text-6xl font-black text-wine uppercase tracking-tighter leading-none">
+                            What We <br /> <span className="text-sky">Believe</span>
+                        </h2>
+                        <p className="text-gray-600 text-lg leading-relaxed font-light">
+                            Our faith is rooted in the unchanging Word of God, leading us to a dynamic experience of His presence and power. These are the pillars that uphold our ministry and guide our every action.
+                        </p>
+                    </div>
+                    <div className="reveal reveal-right space-y-6">
+                        {[
+                            { title: "The Authority of Scripture", content: "The Bible is the inspired, infallible Word of God, our final authority in faith and life." },
+                            { title: "The Triune God", content: "We believe in one God, eternally existing in three persons: Father, Son (Jesus Christ), and Holy Spirit." },
+                            { title: "Salvation Through Christ", content: "Salvation is by grace through faith in Jesus Christ alone, who died for our sins and rose again." },
+                            { title: "The Power of the Holy Spirit", content: "We believe in the present-day operation of the Holy Spirit, empowering believers for victorious living and service." },
+                            { title: "The Blessed Hope", content: "We believe in the literal, physical return of Jesus Christ to establish His kingdom on earth." }
+                        ].map((item, i) => (
+                            <details key={i} className="group bg-white p-6 rounded-2xl shadow-md border border-gray-100 cursor-pointer transition-all duration-500 hover:shadow-xl">
+                                <summary className="flex justify-between items-center font-bold text-wine text-lg uppercase tracking-tight group-hover:text-sky transition-colors">
+                                    {item.title}
+                                    <svg className="w-5 h-5 text-wine group-hover:text-sky transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </summary>
+                                <p className="mt-4 text-gray-600 text-base leading-relaxed">{item.content}</p>
+                            </details>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* --- 5. THE GLOBAL & LOCAL IMPACT GALLERY --- */}
+            <section className="py-32 bg-white px-6">
+                <div className="max-w-7xl mx-auto">
+                    <div className="text-center mb-20">
+                        <h4 className="reveal reveal-up text-sky font-black uppercase tracking-[0.5em] text-xs">From Lagos to the Nations</h4>
+                        <h2 className="reveal reveal-up delay-100 text-4xl md:text-7xl font-black text-wine uppercase tracking-tighter leading-none">
+                            Our <span className="text-gray-300 italic">Impact</span>
+                        </h2>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {[
+                            {
+                                title: "Nigerian Christian Children's Home",
+                                desc: "Providing a loving home and holistic care through CINO, directly overseen by the Apostle.",
+                                img: "https://images.unsplash.com/photo-1544272898-3563964f434c?q=80&w=2070&auto=format&fit=crop"
+                            },
+                            {
+                                title: "Global Leadership Summits",
+                                desc: "Apostle Famose representing Africa at CAFO conferences, shaping policy for orphan care.",
+                                img: "https://images.unsplash.com/photo-1531545514256-d18f5358079a?q=80&w=2070&auto=format&fit=crop"
+                            },
+                            {
+                                title: "Community Outreach & Revival",
+                                desc: "Weekly outreaches bringing the fire of revival and practical support to local communities.",
+                                img: "https://images.unsplash.com/photo-1523961129506-6df798e4d2a9?q=80&w=2070&auto=format&fit=crop"
+                            }
+                        ].map((impact, i) => (
+                            <div key={i} className="reveal reveal-up group bg-[#FCFBFA] rounded-[3rem] overflow-hidden shadow-xl border border-gray-100 hover:-translate-y-4 transition-all duration-700" style={{ transitionDelay: `${i * 150}ms` }}>
+                                <div className="relative h-64 w-full overflow-hidden">
+                                    <Image src={impact.img} alt={impact.title} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                                    <div className="absolute inset-0 bg-wine/30 group-hover:bg-transparent transition-colors duration-500"></div>
+                                </div>
+                                <div className="p-8">
+                                    <h5 className="text-wine font-black uppercase tracking-widest text-sm mb-3">{impact.title}</h5>
+                                    <p className="text-gray-600 text-sm leading-relaxed">{impact.desc}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* --- 6. CALL TO ACTION: CONNECT WITH US --- */}
+            <section className="py-32 bg-wine px-6">
+                <div className="max-w-4xl mx-auto text-center relative z-10">
+                    <h2 className="reveal reveal-up text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none mb-10">
+                        Join the <br /> <span className="text-sky/50 italic">Movement</span>
+                    </h2>
+                    <p className="reveal reveal-up delay-100 text-lg md:text-xl text-white/70 font-light max-w-2xl mx-auto mb-12 italic leading-relaxed">
+                        "Your journey of faith, purpose, and impact begins here. Discover your place in the 'One in a Million' generation."
                     </p>
-                    <div className="flex flex-wrap justify-center gap-4">
-                        <Link href="/plan-your-visit">
-                            <button className="px-10 py-4 bg-wine text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-xl hover:bg-sky transition-all duration-500">
-                                Plan Your Visit
-                            </button>
+                    <div className="reveal reveal-up delay-200 flex flex-col sm:flex-row gap-6 justify-center">
+                        <Link href="/plan-your-visit" className="bg-white text-wine px-12 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-sky hover:text-white transition-all shadow-xl">
+                            Plan Your First Visit
                         </Link>
-                        <Link href="/contact">
-                            <button className="px-10 py-4 border border-wine text-wine rounded-xl font-black text-xs uppercase tracking-widest hover:bg-wine hover:text-white transition-all duration-500">
-                                Contact Us
-                            </button>
+                        <Link href="/contact" className="border-2 border-white/20 text-white px-12 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-white hover:text-wine transition-all">
+                            Contact Us
                         </Link>
                     </div>
                 </div>
             </section>
 
-            <style jsx global>{`
-                .reveal {
-                    opacity: 0;
-                    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-                }
-                .reveal-up { transform: translateY(40px); }
-                .reveal-left { transform: translateX(-40px); }
-                .reveal-right { transform: translateX(40px); }
-                .reveal-scale { transform: scale(0.98); }
-                
-                .reveal-visible {
-                    opacity: 1;
-                    transform: translate(0) scale(1);
-                }
-                .delay-100 { transition-delay: 100ms; }
-                .delay-200 { transition-delay: 200ms; }
-            `}</style>
+            <style jsx>{`
+        .reveal { opacity: 0; transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-up { transform: translateY(60px); }
+        .reveal-left { transform: translateX(-60px); }
+        .reveal-right { transform: translateX(60px); }
+        .reveal-visible { opacity: 1; transform: translate(0); }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+      `}</style>
         </main>
     );
 }

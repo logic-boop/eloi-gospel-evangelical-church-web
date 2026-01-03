@@ -20,8 +20,8 @@ export default function HomePage() {
   return (
     <main className={`transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} bg-[#FCFBFA]`}>
 
-      {/* 1. HERO SECTION */}
-      <section className="relative min-h-[120vh] w-full flex flex-col items-center justify-start overflow-hidden bg-wine pt-56 pb-24 px-6">
+      {/* 1. HERO SECTION - Adjusted Padding for the New Header */}
+      <section className="relative min-h-[120vh] w-full flex flex-col items-center justify-start overflow-hidden bg-wine pt-64 pb-24 px-6">
 
         {/* Background Layer */}
         <div className="absolute inset-0 z-0 opacity-30 scale-110 animate-pulse-slow">
@@ -53,7 +53,7 @@ export default function HomePage() {
             "The fire shall ever be burning upon the altar; it shall never go out." Experience the presence at **Eloi Gospel Evangelical Church**.
           </p>
 
-          {/* CTA ACTION CENTER - UPDATED LINKS */}
+          {/* CTA ACTION CENTER */}
           <div className="reveal reveal-up delay-300 flex flex-col sm:flex-row gap-6 justify-center items-center w-full max-w-2xl">
             <Link href="/plan-your-visit" className="w-full sm:w-1/2">
               <button className="w-full bg-white text-wine px-10 py-5 rounded-xl font-black uppercase tracking-[0.2em] text-xs hover:bg-sky hover:text-white transition-all duration-700 shadow-2xl hover:scale-[1.03] active:scale-95">
@@ -74,12 +74,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. THE MANDATE - UPDATED LINK */}
+      {/* 2. THE MANDATE */}
       <section className="py-32 bg-white px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <div className="reveal reveal-left relative">
             <div className="relative aspect-[4/5] rounded-[4rem] overflow-hidden shadow-2xl">
-              <Image src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=2073&auto=format&fit=crop" alt="Worship at Eloi Gospel Evangelical Church" fill className="object-cover" />
+              {/* FIXED: Added sizes to clear console warning */}
+              <Image
+                src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=2073&auto=format&fit=crop"
+                alt="Worship at Eloi Gospel Evangelical Church"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
             </div>
             <div className="absolute -bottom-8 -right-8 bg-wine p-10 rounded-[3rem] shadow-2xl hidden md:block">
               <p className="text-sky font-black text-2xl tracking-tighter uppercase leading-tight italic">E.G.E.C <br /> Mandate</p>
@@ -138,7 +145,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. FINAL CTA - UPDATED LINKS */}
+      {/* 4. FINAL CTA */}
       <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto bg-wine rounded-[4rem] p-12 md:p-24 relative overflow-hidden text-center text-white shadow-2xl">
           <div className="absolute top-0 right-0 w-[50%] h-full bg-sky/5 skew-x-12 translate-x-20"></div>
@@ -158,10 +165,10 @@ export default function HomePage() {
       <style jsx>{`
         .animate-pulse-slow { animation: pulse 12s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
         @keyframes pulse { 0%, 100% { opacity: 0.2; transform: scale(1.1); } 50% { opacity: 0.4; transform: scale(1.15); } }
-        .reveal { opacity: 0; transition: all 1s ease-out; }
-        .reveal-up { transform: translateY(40px); }
-        .reveal-left { transform: translateX(-40px); }
-        .reveal-right { transform: translateX(40px); }
+        .reveal { opacity: 0; transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-up { transform: translateY(60px); }
+        .reveal-left { transform: translateX(-60px); }
+        .reveal-right { transform: translateX(60px); }
         .reveal-visible { opacity: 1; transform: translate(0); }
         .delay-100 { transition-delay: 100ms; }
         .delay-200 { transition-delay: 200ms; }
