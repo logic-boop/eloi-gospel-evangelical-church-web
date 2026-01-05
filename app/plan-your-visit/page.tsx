@@ -4,7 +4,15 @@ import Image from 'next/image';
 
 export default function PlanVisitPage() {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [formStatus, setFormStatus] = useState('idle');
+    const [formStatus, setFormStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
+
+    // Form State
+    const [formData, setFormData] = useState({
+        name: '',
+        phone: '',
+        date: '',
+        message: ''
+    });
 
     useEffect(() => {
         setIsLoaded(true);
@@ -16,10 +24,32 @@ export default function PlanVisitPage() {
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }, []);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setFormStatus('submitting');
-        setTimeout(() => setFormStatus('success'), 1500);
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'visit', // Tells the API this is a visit plan
+                    name: formData.name,
+                    email: 'visitor@website.com', // Placeholder or add email field
+                    phone: formData.phone,
+                    date: formData.date,
+                    message: formData.message
+                }),
+            });
+
+            if (response.ok) {
+                setFormStatus('success');
+            } else {
+                setFormStatus('error');
+            }
+        } catch (error) {
+            setFormStatus('error');
+        }
     };
 
     return (
@@ -41,7 +71,7 @@ export default function PlanVisitPage() {
                 </div>
             </section>
 
-            {/* 2. THE CONCIERGE EXPERIENCE (Service Times) */}
+            {/* 2. SERVICE TIMES */}
             <section className="py-24 px-6 max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                     <div className="reveal reveal-up bg-[#FCFBFA] p-12 rounded-[3rem] border border-gray-100 shadow-xl group hover:bg-wine transition-all duration-700">
@@ -67,13 +97,13 @@ export default function PlanVisitPage() {
                 </div>
             </section>
 
-            {/* 3. RESERVATION FORM - PREMUM DESIGN */}
+            {/* 3. RESERVATION FORM */}
             <section className="py-24 bg-[#F9F8F6] px-6">
                 <div className="max-w-4xl mx-auto bg-white rounded-[4rem] shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-5">
                     <div className="md:col-span-2 bg-sky p-12 text-white flex flex-col justify-between">
                         <div>
                             <h2 className="text-3xl font-black uppercase tracking-tighter leading-none mb-6">Let Us <br /> Prepare For <br /> Your Arrival</h2>
-                            <p className="text-white/70 font-light italic">As a first-time guest, you will be met by our hospitality team and given a personal tour of the sanctuary.</p>
+                            <p className="text-white/70 font-light italic">As a first-time guest, you will be met by our hospitality team and given a personal tour.</p>
                         </div>
                         <div className="space-y-4">
                             <p className="text-[10px] font-black uppercase tracking-[0.3em]">Location Office</p>
@@ -86,29 +116,61 @@ export default function PlanVisitPage() {
                             <div className="h-full flex flex-col items-center justify-center text-center space-y-4 animate-in fade-in zoom-in">
                                 <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl">✓</div>
                                 <h3 className="text-2xl font-black text-wine uppercase">We Are Ready!</h3>
-                                <p className="text-gray-500">Check your email for your personalized visit itinerary.</p>
+                                <p className="text-gray-500">The church office has been notified of your visit.</p>
+                                <button onClick={() => setFormStatus('idle')} className="text-sky font-black uppercase text-[10px] tracking-widest">Send another request</button>
                             </div>
                         ) : (
                             <form onSubmit={handleSubmit} className="space-y-6">
+                                {formStatus === 'error' && <p className="text-red-500 text-[10px] font-black uppercase">Error sending request. Please try again.</p>}
                                 <div className="grid grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Full Name</label>
-                                        <input required type="text" className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors" placeholder="John Doe" />
+                                        <input
+                                            required
+                                            type="text"
+                                            value={formData.name}
+                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                            className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors"
+                                            placeholder="John Doe"
+                                        />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest">WhatsApp Number</label>
-                                        <input required type="tel" className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors" placeholder="+234..." />
+                                        <input
+                                            required
+                                            type="tel"
+                                            value={formData.phone}
+                                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                            className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors"
+                                            placeholder="+234..."
+                                        />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Select Date of Visit</label>
-                                    <input required type="date" className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors" />
+                                    <input
+                                        required
+                                        type="date"
+                                        value={formData.date}
+                                        onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                                        className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors"
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Any Prayer Requests?</label>
-                                    <textarea className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors" rows={2} placeholder="Optional..."></textarea>
+                                    <textarea
+                                        value={formData.message}
+                                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                        className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors"
+                                        rows={2}
+                                        placeholder="Optional..."
+                                    ></textarea>
                                 </div>
-                                <button type="submit" className="w-full bg-wine text-white py-6 rounded-2xl font-black uppercase tracking-widest text-[11px] hover:bg-sky transition-all shadow-xl">
+                                <button
+                                    disabled={formStatus === 'submitting'}
+                                    type="submit"
+                                    className="w-full bg-wine text-white py-6 rounded-2xl font-black uppercase tracking-widest text-[11px] hover:bg-sky transition-all shadow-xl disabled:opacity-50"
+                                >
                                     {formStatus === 'submitting' ? 'Processing...' : 'Confirm My Visit'}
                                 </button>
                             </form>
@@ -117,25 +179,17 @@ export default function PlanVisitPage() {
                 </div>
             </section>
 
-            {/* 4. FREQUENTLY ASKED (WHAT TO EXPECT) */}
+            {/* 4. EXPECTATIONS */}
             <section className="py-32 px-6 max-w-5xl mx-auto">
                 <h2 className="reveal reveal-up text-4xl font-black text-wine uppercase tracking-tighter mb-16 text-center">What To <span className="text-gray-300">Expect</span></h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                     <div className="reveal reveal-left space-y-4">
                         <h4 className="font-black text-sky text-xs uppercase tracking-widest italic">01. The Atmosphere</h4>
-                        <p className="text-gray-600 leading-relaxed font-light">Expect a high-energy, prophetic environment. Our worship is intense, and our message is raw. We believe in the literal manifestation of God's power.</p>
+                        <p className="text-gray-600 leading-relaxed font-light">Expect a high-energy, prophetic environment. Our worship is intense, and our message is raw.</p>
                     </div>
                     <div className="reveal reveal-right space-y-4">
                         <h4 className="font-black text-sky text-xs uppercase tracking-widest italic">02. Dress Code</h4>
-                        <p className="text-gray-600 leading-relaxed font-light">Come as you are. Whether in a formal suit or casual attire, you are part of the One in a Million family. We value your heart over your appearance.</p>
-                    </div>
-                    <div className="reveal reveal-left space-y-4">
-                        <h4 className="font-black text-sky text-xs uppercase tracking-widest italic">03. The Children</h4>
-                        <p className="text-gray-600 leading-relaxed font-light">We have a world-class children's ministry that mirrors our vision. Your kids will be taught the word in a way that activates their prophetic destiny.</p>
-                    </div>
-                    <div className="reveal reveal-right space-y-4">
-                        <h4 className="font-black text-sky text-xs uppercase tracking-widest italic">04. Parking & Arrival</h4>
-                        <p className="text-gray-600 leading-relaxed font-light">Our guest parking team will be waiting for you. We recommend arriving 15 minutes early to enjoy a pre-service briefing and coffee.</p>
+                        <p className="text-gray-600 leading-relaxed font-light">Come as you are. Whether in a formal suit or casual attire, you are family.</p>
                     </div>
                 </div>
             </section>

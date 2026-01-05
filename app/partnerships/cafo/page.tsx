@@ -18,152 +18,183 @@ export default function CafoPage() {
     }, []);
 
     return (
-        <main className={`transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} bg-white`}>
+        <main className={`transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} bg-[#0A192F] overflow-x-hidden`}>
 
-            {/* --- 1. GLOBAL HERO: CAFO PARTNERSHIP --- */}
-            <section className="relative min-h-[90vh] w-full flex flex-col items-center justify-center overflow-hidden bg-black pt-32 px-6">
-                <div className="absolute inset-0 z-0 opacity-40">
-                    <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black z-10"></div>
-                    {/* Official CAFO Summit Style Background */}
+            {/* --- 1. GLOBAL HERO: THE APOSTOLIC MANDATE (ADJUSTED FOR TINTED HEADER) --- */}
+            <section className="relative min-h-screen w-full flex flex-col justify-center overflow-hidden">
+                <div className="absolute inset-0 z-0">
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#0A192F] via-[#0A192F]/60 to-[#0A192F] z-10" />
                     <Image
                         src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=2006&auto=format&fit=crop"
-                        alt="Global Leadership Background"
-                        fill
-                        className="object-cover"
+                        alt="Global Leadership" fill className="object-cover scale-110 animate-slowZoom opacity-30 grayscale"
+                        priority
                     />
                 </div>
 
-                <div className="relative z-20 text-center max-w-6xl">
-                    <div className="reveal reveal-up inline-block px-8 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full mb-10">
-                        <span className="text-sky font-black uppercase tracking-[0.5em] text-[11px]">Official Global Partner of CAFO.org</span>
+                <div className="relative z-20 max-w-7xl mx-auto px-6 pt-[35vh] pb-20 w-full">
+                    <div className="reveal reveal-left flex items-center gap-6 mb-10">
+                        <span className="h-px w-16 bg-[#C5A059]"></span>
+                        <h4 className="text-[#C5A059] font-black uppercase tracking-[0.6em] text-[10px] md:text-xs">
+                            Official Global Alliance • CAFO.org
+                        </h4>
                     </div>
-                    <h1 className="reveal reveal-up delay-100 text-5xl md:text-[8rem] font-black text-white uppercase tracking-tighter leading-[0.8] mb-12">
-                        World <br /> <span className="text-sky italic">Authority</span>
+
+                    <h1 className="reveal reveal-up delay-100 text-6xl md:text-[140px] font-black uppercase tracking-tighter leading-[0.8] mb-12 text-white">
+                        Global <br />
+                        <span className="text-transparent stroke-gold italic">Mandate</span>
                     </h1>
-                    <p className="reveal reveal-up delay-200 text-xl md:text-2xl text-white/50 font-light max-w-3xl mx-auto italic leading-relaxed">
-                        "Bridging the gap between the Global Church and the African Orphan through the Apostolic Office."
-                    </p>
+
+                    <div className="reveal reveal-up delay-200 flex flex-col md:flex-row items-start md:items-center gap-12 border-t border-white/10 pt-12">
+                        <p className="text-white/40 font-light text-lg md:text-2xl tracking-wide max-w-2xl italic leading-relaxed">
+                            "Representing the African Continent in the global pursuit of excellence in orphan care and apostolic advocacy."
+                        </p>
+                        <div className="flex flex-col gap-1">
+                            <span className="text-[#C5A059] font-black text-xs uppercase tracking-[0.3em]">Seat of Office</span>
+                            <span className="text-white font-bold text-sm uppercase">Africa Representative Office</span>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            {/* --- 2. THE FOUNDER'S OFFICIAL SEAT (CAFO AFRICA REPRESENTATIVE) --- */}
-            <section className="py-32 px-6 bg-[#FCFBFA]">
-                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+            {/* --- 2. THE CONTINENTAL REPRESENTATIVE (PREMIUM LIGHT SECTION) --- */}
+            <section className="py-40 px-6 bg-white relative">
+                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
 
-                    <div className="reveal reveal-left space-y-10">
-                        <div className="inline-block px-5 py-2 bg-wine/5 rounded-lg border-l-4 border-wine">
-                            <span className="text-wine font-black uppercase tracking-widest text-xs">The Continental Mandate</span>
+                    <div className="reveal reveal-left space-y-12">
+                        <div className="space-y-6">
+                            <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none text-[#0A192F]">
+                                Africa <br /> <span className="text-[#C5A059] italic text-5xl md:text-7xl">Continent</span> <br /> Representative
+                            </h2>
+                            <div className="w-24 h-2 bg-[#C5A059]" />
                         </div>
-                        <h2 className="text-4xl md:text-7xl font-black text-wine uppercase tracking-tighter leading-none">
-                            Africa <br /> <span className="text-gray-300">Continent</span> <br /> <span className="text-sky">Representative</span>
-                        </h2>
-                        <p className="text-xl text-gray-600 leading-relaxed font-light">
-                            As the designated **Africa Continent Representative for CAFO**, Apostle Dr. Moses Babatunde Olubode Famose stands at the forefront of global orphan care advocacy. His leadership ensures that African voices are heard in global summits and that world-class research is applied locally.
-                        </p>
-                        <div className="grid grid-cols-2 gap-8 pt-6">
+
+                        <div className="space-y-8">
+                            <p className="text-xl text-gray-500 leading-relaxed font-light italic">
+                                Apostle (Dr.) Moses Famose serves as the official **Africa Continent Representative for CAFO Global**.
+                            </p>
+                            <p className="text-lg text-gray-400 leading-relaxed">
+                                Standing as a bridge between international research-based care and the local African church, his office provides the strategic leadership required to move from basic charity to **world-class orphan advocacy**.
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-12 border-t border-gray-100 pt-12">
                             <div>
-                                <h4 className="font-black text-wine text-3xl">120+</h4>
-                                <p className="text-gray-400 uppercase font-bold text-[10px] tracking-widest mt-2">Nations Represented</p>
+                                <h4 className="font-black text-[#0A192F] text-5xl tracking-tighter">120+</h4>
+                                <p className="text-[#C5A059] uppercase font-black text-[10px] tracking-widest mt-2">Nations Impacted</p>
                             </div>
                             <div>
-                                <h4 className="font-black text-sky text-3xl">200k+</h4>
-                                <p className="text-gray-400 uppercase font-bold text-[10px] tracking-widest mt-2">Children Impacted</p>
+                                <h4 className="font-black text-[#0A192F] text-5xl tracking-tighter">200K</h4>
+                                <p className="text-[#C5A059] uppercase font-black text-[10px] tracking-widest mt-2">Children Covered</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="reveal reveal-right relative">
-                        {/* FRAME FOR OFFICIAL CAFO WEBSITE PHOTO OF FOUNDER */}
-                        <div className="relative aspect-[4/5] rounded-[4rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] border-[12px] border-white">
+                    <div className="reveal reveal-right relative lg:pt-20">
+                        <div className="absolute -inset-10 bg-[#0A192F]/5 blur-[100px] rounded-full"></div>
+                        <div className="relative aspect-[4/5] rounded-[4rem] overflow-hidden border-[12px] border-[#f8f9fa] shadow-2xl">
                             <Image
                                 src="https://images.unsplash.com/photo-1540317580384-e5d43616b9aa?q=80&w=1974&auto=format&fit=crop"
-                                alt="Apostle Dr. Moses Babatunde Olubode Famose at CAFO Summit"
-                                fill
-                                className="object-cover"
+                                alt="Official CAFO Representation" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-wine/60 via-transparent to-transparent"></div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0A192F]/80 via-transparent to-transparent" />
+                            <div className="absolute bottom-10 left-10 right-10">
+                                <p className="text-white text-3xl font-black italic uppercase leading-none tracking-tighter">
+                                    "One Heart <br /> One Mission <br /> Global Excellence"
+                                </p>
+                            </div>
                         </div>
                         {/* OFFICIAL BADGE */}
-                        <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-white rounded-full flex items-center justify-center p-6 shadow-2xl border border-gray-100">
-                            <p className="text-[10px] font-black text-wine text-center uppercase tracking-tighter">Official Delegate <br /> <span className="text-sky text-lg">CAFO</span> <br /> Global Alliance</p>
+                        <div className="absolute -bottom-10 -right-5 md:-right-10 w-44 h-44 bg-[#0A192F] rounded-full flex flex-col items-center justify-center p-6 shadow-2xl border-4 border-[#C5A059]">
+                            <span className="text-[#C5A059] font-black text-[9px] uppercase tracking-widest mb-1">Official</span>
+                            <span className="text-white font-black text-2xl uppercase tracking-tighter">CAFO</span>
+                            <span className="text-white/40 font-bold text-[8px] uppercase tracking-widest mt-1">Delegate</span>
                         </div>
                     </div>
-
                 </div>
             </section>
 
-            {/* --- 3. THE APOSTOLIC GALLERY (PHOTOS FROM CAFO.ORG CONTEXT) --- */}
-            <section className="py-32 bg-white px-6">
-                <div className="max-w-7xl mx-auto">
-                    <div className="flex flex-col md:flex-row justify-between items-end mb-20">
-                        <div>
-                            <h4 className="text-sky font-black uppercase tracking-[0.5em] text-xs mb-4">Official Documentation</h4>
-                            <h2 className="text-4xl md:text-6xl font-black text-wine uppercase tracking-tighter">Global <span className="italic font-light text-gray-300">Footprints</span></h2>
-                        </div>
-                        <p className="text-gray-400 font-bold uppercase text-[10px] tracking-widest mb-2 max-w-xs text-right">
-                            Moments of impact featuring the Founder across CAFO global activities.
+            {/* --- 3. THE APOSTOLIC FOOTPRINTS (DOCUMENTARY GALLERY) --- */}
+            <section className="py-40 bg-[#081221] relative overflow-hidden">
+                <div className="max-w-7xl mx-auto px-6 relative z-10">
+                    <div className="reveal reveal-up mb-24 flex flex-col md:flex-row justify-between items-end gap-10">
+                        <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-white">
+                            Official <span className="text-[#C5A059] italic underline decoration-1 underline-offset-8">Documentation</span>
+                        </h2>
+                        <p className="text-white/30 font-bold uppercase text-[10px] tracking-[0.4em] max-w-xs text-left md:text-right">
+                            Strategic moments of impact across the CAFO Global Summits and Research Initiatives.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-[800px]">
-                        <div className="md:col-span-8 relative rounded-[3rem] overflow-hidden group reveal reveal-up">
-                            <Image src="https://images.unsplash.com/photo-1475721027187-402ad2989a3b?q=80&w=2070&auto=format&fit=crop" alt="Founder Global Summit" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" />
-                            <div className="absolute bottom-10 left-10 text-white z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                <h5 className="font-black uppercase tracking-widest">Leadership Roundtable</h5>
-                                <p className="text-xs text-white/70 italic">Representing the Africa Continent Office</p>
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 h-auto md:h-[700px]">
+                        <div className="md:col-span-8 relative rounded-[4rem] overflow-hidden group reveal reveal-up border border-white/10 min-h-[400px]">
+                            <Image src="https://images.unsplash.com/photo-1475721027187-402ad2989a3b?q=80&w=2070&auto=format&fit=crop" alt="Global Summit" fill className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0A192F] via-transparent to-transparent opacity-60" />
+                            <div className="absolute bottom-12 left-12">
+                                <span className="text-[#C5A059] font-black uppercase text-[10px] tracking-widest">Leadership Session</span>
+                                <h3 className="text-white text-3xl font-black uppercase tracking-tighter">Continental Strategic Roundtable</h3>
                             </div>
                         </div>
-                        <div className="md:col-span-4 grid grid-rows-2 gap-6">
-                            <div className="relative rounded-[3rem] overflow-hidden group reveal reveal-up delay-100">
-                                <Image src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop" alt="CAFO Strategy Session" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" />
+                        <div className="md:col-span-4 grid grid-rows-2 gap-8">
+                            <div className="relative rounded-[3rem] overflow-hidden group reveal reveal-up delay-100 border border-white/10 min-h-[300px]">
+                                <Image src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop" alt="Strategy" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" />
                             </div>
-                            <div className="relative rounded-[3rem] overflow-hidden group reveal reveal-up delay-200">
-                                <Image src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2070&auto=format&fit=crop" alt="African Delegate Meeting" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" />
+                            <div className="relative rounded-[3rem] overflow-hidden group reveal reveal-up delay-200 border border-white/10 min-h-[300px]">
+                                <Image src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2070&auto=format&fit=crop" alt="Delegates" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" />
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* --- 4. CAFO CORE MISSION PILLARS --- */}
-            <section className="py-32 bg-wine">
-                <div className="max-w-7xl mx-auto px-6 text-center mb-20">
-                    <h2 className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter">Pure Religion <br /> <span className="text-sky/40">Pure Impact</span></h2>
-                </div>
+            {/* --- 4. CORE PILLARS --- */}
+            <section className="py-40 bg-white">
                 <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
                     {[
-                        { title: "The CAFO Way", desc: "Equipping churches to move from simple charity to excellence-based care.", icon: "💎" },
-                        { title: "Global Research", desc: "Implementing trauma-informed care models backed by world-class research.", icon: "🧬" },
-                        { title: "Africa Policy", desc: "Shaping the future of foster care across the African continent.", icon: "📜" }
+                        { title: "Trauma Informed", sub: "The CAFO Model", desc: "Implementing world-class, research-backed care modules for African orphanages.", icon: "🧬" },
+                        { title: "Pure Religion", sub: "James 1:27", desc: "Equipping the five-fold ministry to prioritize the widow and the fatherless.", icon: "⚔️" },
+                        { title: "Policy Reform", sub: "Continental Advocacy", desc: "Collaborating with governments to reshape foster care and adoption policies.", icon: "📜" }
                     ].map((item, i) => (
-                        <div key={i} className="reveal reveal-up bg-white/5 border border-white/10 p-12 rounded-[3.5rem] hover:bg-white/10 transition-colors duration-500" style={{ transitionDelay: `${i * 150}ms` }}>
-                            <div className="text-4xl mb-6">{item.icon}</div>
-                            <h4 className="text-sky font-black uppercase tracking-widest text-sm mb-4">{item.title}</h4>
-                            <p className="text-white/60 font-light leading-relaxed">{item.desc}</p>
+                        <div key={i} className="reveal reveal-up bg-[#0A192F]/[0.02] p-16 rounded-[4rem] border border-[#0A192F]/5 hover:border-[#C5A059]/50 transition-all duration-700 group">
+                            <span className="text-6xl mb-12 block group-hover:scale-110 transition-transform duration-500">{item.icon}</span>
+                            <h3 className="text-2xl font-black uppercase mb-2 group-hover:text-[#C5A059] transition-colors">{item.title}</h3>
+                            <p className="text-[#C5A059] font-black text-[9px] uppercase tracking-[0.4em] mb-8">{item.sub}</p>
+                            <p className="text-gray-500 font-light leading-relaxed text-lg">{item.desc}</p>
                         </div>
                     ))}
                 </div>
             </section>
 
             {/* --- FINAL CTA --- */}
-            <section className="py-32 flex flex-col items-center text-center px-6">
-                <h2 className="reveal reveal-up text-4xl md:text-6xl font-black text-wine uppercase tracking-tighter mb-10">
-                    Witness the <br /> <span className="text-sky">Local Impact</span>
-                </h2>
-                <Link href="/partnerships/cino" className="reveal reveal-up delay-100 bg-wine text-white px-12 py-6 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-sky transition-all shadow-2xl">
-                    Go to CINO Nigeria Office
-                </Link>
+            <section className="py-52 text-center px-6 bg-[#0A192F] relative overflow-hidden">
+                <div className="reveal reveal-up max-w-5xl mx-auto space-y-16 relative z-10">
+                    <h2 className="text-6xl md:text-[110px] font-black uppercase tracking-tighter text-white leading-none">
+                        Witness the <br /> <span className="text-transparent stroke-gold italic">Local Impact</span>
+                    </h2>
+                    <p className="text-white/40 text-xl font-light italic max-w-2xl mx-auto leading-relaxed">
+                        Transition from global policy to local implementation. See how the CAFO mandate is fulfilled through CINO Nigeria.
+                    </p>
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+                        <Link href="/partnerships/cino"
+                            className="px-20 py-8 bg-[#C5A059] text-[#0A192F] font-black uppercase tracking-[0.4em] text-[10px] rounded-full hover:bg-white hover:scale-105 transition-all shadow-2xl">
+                            Go to CINO Nigeria Office
+                        </Link>
+                    </div>
+                </div>
             </section>
 
             <style jsx>{`
-        .reveal { opacity: 0; transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal-up { transform: translateY(60px); }
-        .reveal-left { transform: translateX(-60px); }
-        .reveal-right { transform: translateX(60px); }
-        .reveal-visible { opacity: 1; transform: translate(0); }
-        .delay-100 { transition-delay: 100ms; }
-        .delay-200 { transition-delay: 200ms; }
-      `}</style>
+                @keyframes slowZoom {
+                    from { transform: scale(1); }
+                    to { transform: scale(1.15); }
+                }
+                .animate-slowZoom { animation: slowZoom 30s linear infinite alternate; }
+                .reveal { opacity: 0; transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
+                .reveal-up { transform: translateY(80px); }
+                .reveal-left { transform: translateX(-80px); }
+                .reveal-right { transform: translateX(80px); }
+                .reveal-visible { opacity: 1; transform: translate(0); }
+                .stroke-gold { -webkit-text-stroke: 1.5px #C5A059; }
+            `}</style>
         </main>
     );
 }

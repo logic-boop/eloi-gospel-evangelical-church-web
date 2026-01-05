@@ -37,10 +37,10 @@ export default function HomePage() {
             <div className="relative inline-block px-10 py-4">
               <div className="absolute inset-0 border border-white/10 rounded-full"></div>
               <h2 className="text-white font-bold text-lg md:text-3xl tracking-[0.15em] uppercase">
-                Eloi Gospel Evangelical Church
+                Eloi Gospel Evangelical Church • (EGEC)
               </h2>
               <h2 className="text-sky font-bold text-lg md:text-2xl tracking-[0.15em] uppercase">
-                FAITH'S INTERNATIONAL MINISTRY
+                KING'S WORSHIP CENTER • (KWC)
               </h2>
             </div>
           </div>

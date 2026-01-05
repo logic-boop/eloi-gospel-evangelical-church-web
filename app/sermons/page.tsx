@@ -1,196 +1,251 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+
+// 1. DATA STRUCTURE: Detailed & Scalable
+interface Sermon {
+    id: string;
+    title: string;
+    speaker: string;
+    series: string;
+    date: string;
+    duration: string;
+    description: string;
+    thumbnail: string;
+    videoUrl: string; // Link to YouTube/Vimeo/S3
+    tags: string[];
+}
 
 export default function SermonsPage() {
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [activeCategory, setActiveCategory] = useState('All');
+    const [activeFilter, setActiveFilter] = useState('ALL');
+    const [selectedSermon, setSelectedSermon] = useState<Sermon | null>(null);
+    const [mounted, setMounted] = useState(false);
 
-    // Updated Sermon Data - Replace videoUrl and imageUrl with your actual content
-    const sermons = [
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll();
+    const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const categories = ['ALL', 'PROPHETIC', 'KINGDOM ECONOMY', 'FAITH', 'DOMINION'];
+
+    const sermons: Sermon[] = [
         {
             id: '1',
-            title: 'The Fire Shall Never Go Out',
-            speaker: 'Apostle Dr. Moses Famose',
-            date: 'October 27, 2023',
-            category: 'Revival',
-            imageUrl: 'https://images.unsplash.com/photo-1542867015-7096c429bf70?q=80&w=2070&auto=format&fit=crop',
-            videoUrl: 'https://www.youtube.com/@your-channel-name' 
+            title: "THE FIRE SHALL NOT GO OUT",
+            speaker: "Apostle Famose",
+            series: "ALTAR OF PRAYER",
+            date: "JAN 04, 2026",
+            duration: "58:20",
+            description: "A profound teaching on maintaining the spiritual intensity required for the end-time harvest. This message explores the ancient secrets of the burning altar.",
+            thumbnail: "https://images.unsplash.com/photo-1499364615650-ec38552f4f34?q=80&w=1972",
+            videoUrl: "#",
+            tags: ["FIRE", "PRAYER", "REVIVAL"]
         },
         {
             id: '2',
-            title: 'Unlocking Your Prophetic Destiny',
-            speaker: 'Apostle Dr. Moses Famose',
-            date: 'October 20, 2023',
-            category: 'Prophetic',
-            imageUrl: 'https://images.unsplash.com/photo-1510511459019-5fda772437bb?q=80&w=2070&auto=format&fit=crop',
-            videoUrl: 'https://www.youtube.com/@your-channel-name'
+            title: "UNCOMMON DOMINION",
+            speaker: "Apostle Famose",
+            series: "KINGDOM AUTHORITY",
+            date: "DEC 28, 2025",
+            duration: "42:15",
+            description: "Understanding your legal standing in the spirit realm and how to enforce victory in every area of your life.",
+            thumbnail: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=2073",
+            videoUrl: "#",
+            tags: ["AUTHORITY", "DOMINION"]
         },
         {
             id: '3',
-            title: 'Grace For The Race',
-            speaker: 'Guest Minister',
-            date: 'October 13, 2023',
-            category: 'Grace',
-            imageUrl: 'https://images.unsplash.com/photo-1518042468305-b1a72d73f1d9?q=80&w=2070&auto=format&fit=crop',
-            videoUrl: 'https://www.youtube.com/@your-channel-name'
+            title: "THE ECONOMY OF ZION",
+            speaker: "Pastor Paul LeFavour",
+            series: "FINANCIAL GRACE",
+            date: "DEC 21, 2025",
+            duration: "1:05:40",
+            description: "Operating above the global systems. Learning the covenant keys that open the windows of heaven.",
+            thumbnail: "https://images.unsplash.com/photo-1518107616985-bd48230d3b20?q=80&w=2070",
+            videoUrl: "#",
+            tags: ["WEALTH", "COVENANT"]
         },
-        {
-            id: '4',
-            title: 'The Healing Power of ELOI',
-            speaker: 'Apostle Dr. Moses Famose',
-            date: 'October 6, 2023',
-            category: 'Healing',
-            imageUrl: 'https://images.unsplash.com/photo-1510798831610-d8d17277742d?q=80&w=2070&auto=format&fit=crop',
-            videoUrl: 'https://www.youtube.com/@your-channel-name'
-        },
-        {
-            id: '5',
-            title: 'Keys to Abundant Living',
-            speaker: 'Associate Pastor',
-            date: 'September 29, 2023',
-            category: 'Faith',
-            imageUrl: 'https://images.unsplash.com/photo-1506784983877-ad60ce81e28d?q=80&w=2070&auto=format&fit=crop',
-            videoUrl: 'https://www.youtube.com/@your-channel-name'
-        },
-        {
-            id: '6',
-            title: 'The Mandate of Fire',
-            speaker: 'Apostle Dr. Moses Famose',
-            date: 'September 22, 2023',
-            category: 'Revival',
-            imageUrl: 'https://images.unsplash.com/photo-1498146864149-a35985859942?q=80&w=2070&auto=format&fit=crop',
-            videoUrl: 'https://www.youtube.com/@your-channel-name'
-        }
+        // Add more sermon objects as needed...
     ];
 
-    const categories = ['All', 'Revival', 'Prophetic', 'Grace', 'Healing', 'Faith'];
-
-    const filteredSermons = activeCategory === 'All'
+    const filteredSermons = activeFilter === 'ALL'
         ? sermons
-        : sermons.filter(sermon => sermon.category === activeCategory);
+        : sermons.filter(s => s.tags.includes(activeFilter) || s.series.includes(activeFilter));
 
-    useEffect(() => {
-        setIsLoaded(true);
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('reveal-visible');
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    }, []);
+    if (!mounted) return null;
 
     return (
-        <main className={`transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} bg-[#FDFCFB] pt-48 pb-20`}>
+        <main className="min-h-screen bg-[#050505] text-white selection:bg-[#C5A059] selection:text-black pb-40">
 
-            {/* HEADER TEXT */}
-            <section className="px-6 max-w-7xl mx-auto mb-16">
-                <div className="reveal reveal-up border-l-4 border-sky pl-6">
-                    <h4 className="text-sky font-black uppercase tracking-[0.4em] text-[10px] mb-2">Media Archive</h4>
-                    <h1 className="text-4xl md:text-6xl font-black text-wine uppercase tracking-tight">
-                        Spiritual <br /> Nourishment
-                    </h1>
-                </div>
-            </section>
+            {/* --- 1. CINEMATIC FEATURED HERO --- */}
+            <motion.section
+                style={{ opacity: heroOpacity }}
+                className="relative h-[85vh] flex items-center justify-center overflow-hidden"
+            >
+                <Image
+                    src={sermons[0].thumbnail}
+                    alt="Featured Sermon"
+                    fill
+                    className="object-cover opacity-40 scale-105"
+                    priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]/80" />
 
-            {/* 1. HERO SECTION: FEATURED MESSAGE */}
-            <section className="px-6 max-w-7xl mx-auto mb-24">
-                <div className="relative h-[60vh] md:h-[70vh] w-full rounded-[3rem] overflow-hidden reveal reveal-up shadow-2xl">
-                    <Image
-                        src={sermons[0].imageUrl}
-                        alt={sermons[0].title}
-                        fill
-                        className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-wine/95 via-wine/40 to-transparent flex items-end p-8 md:p-16 text-white">
-                        <div className="max-w-4xl space-y-4 relative z-10">
-                            <p className="text-sky font-black uppercase tracking-widest text-xs mb-2">Latest Message</p>
-                            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-tight">
-                                {sermons[0].title}
-                            </h2>
-                            <p className="text-white/70 text-lg font-light italic">{sermons[0].speaker} — {sermons[0].date}</p>
-                            <Link href={sermons[0].videoUrl} target="_blank" rel="noopener noreferrer">
-                                <button className="flex items-center gap-3 px-10 py-5 bg-sky text-white rounded-xl font-black uppercase tracking-widest text-xs hover:bg-white hover:text-wine transition-all shadow-xl mt-6">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                                        <path fillRule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.313 2.706-1.638L18.817 12l-11.61 7.985c-1.177.675-2.706-.211-2.706-1.638V5.653Z" clipRule="evenodd" />
-                                    </svg>
-                                    Watch Full Message
-                                </button>
-                            </Link>
+                <div className="relative z-10 max-w-7xl px-6 w-full mt-20">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <span className="text-[#C5A059] font-black text-[10px] tracking-[0.8em] uppercase mb-6 block">Latest Transmission</span>
+                        <h1 className="text-[10vw] md:text-[7vw] font-black uppercase tracking-tighter leading-[0.85] mb-8">
+                            {sermons[0].title}
+                        </h1>
+                        <div className="flex flex-wrap items-center gap-8 mb-12">
+                            <div className="flex items-center gap-3">
+                                <span className="w-10 h-[1px] bg-[#C5A059]" />
+                                <p className="text-xs font-bold uppercase tracking-widest">{sermons[0].speaker}</p>
+                            </div>
+                            <p className="text-white/40 text-xs font-bold uppercase tracking-widest">{sermons[0].duration} // {sermons[0].date}</p>
                         </div>
-                    </div>
+                        <button className="group flex items-center gap-6 bg-white text-black px-10 py-5 rounded-full hover:bg-[#C5A059] transition-all duration-500">
+                            <span className="font-black text-[10px] uppercase tracking-widest">Watch Now</span>
+                            <div className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                            </div>
+                        </button>
+                    </motion.div>
                 </div>
-            </section>
+            </motion.section>
 
-            {/* 2. SERMONS GRID & FILTERS */}
-            <section className="px-6 max-w-7xl mx-auto mb-32">
-                <div className="flex flex-wrap gap-3 mb-12 reveal reveal-up">
-                    {categories.map(category => (
+            {/* --- 2. INTELLIGENT FILTER BAR --- */}
+            <section className="sticky top-0 z-[100] bg-[#050505]/80 backdrop-blur-xl border-y border-white/5 px-6">
+                <div className="max-w-7xl mx-auto flex overflow-x-auto scrollbar-hide py-8 gap-12">
+                    {categories.map((cat) => (
                         <button
-                            key={category}
-                            onClick={() => setActiveCategory(category)}
-                            className={`px-6 py-3 rounded-full font-bold text-[10px] uppercase tracking-widest transition-all ${activeCategory === category
-                                    ? 'bg-wine text-white shadow-lg'
-                                    : 'bg-white text-gray-400 border border-gray-100 hover:border-sky'
+                            key={cat}
+                            onClick={() => setActiveFilter(cat)}
+                            className={`text-[10px] font-black uppercase tracking-[0.4em] whitespace-nowrap transition-all ${activeFilter === cat ? 'text-[#C5A059]' : 'text-white/20 hover:text-white'
                                 }`}
                         >
-                            {category}
+                            {cat}
                         </button>
                     ))}
                 </div>
+            </section>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {filteredSermons.map((sermon, i) => (
-                        <div key={sermon.id} className="reveal reveal-up group bg-white rounded-[2.5rem] shadow-sm overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-500" style={{ transitionDelay: `${i * 100}ms` }}>
-                            <div className="relative aspect-video overflow-hidden">
-                                <Image
-                                    src={sermon.imageUrl}
-                                    alt={sermon.title}
-                                    fill
-                                    className="object-cover group-hover:scale-110 transition-transform duration-1000"
-                                />
-                                <div className="absolute inset-0 bg-wine/20 group-hover:bg-wine/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-                                    <Link href={sermon.videoUrl} target="_blank" rel="noopener noreferrer">
-                                        <button className="w-16 h-16 rounded-full bg-sky text-white flex items-center justify-center shadow-2xl transform scale-75 group-hover:scale-100 transition-transform duration-500">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 ml-1">
-                                                <path fillRule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.313 2.706-1.638L18.817 12l-11.61 7.985c-1.177.675-2.706-.211-2.706-1.638V5.653Z" clipRule="evenodd" />
-                                            </svg>
-                                        </button>
-                                    </Link>
+            {/* --- 3. THE SERMON ARCHIVE GRID --- */}
+            <section className="px-6 mt-24">
+                <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-20">
+                    <AnimatePresence mode="popLayout">
+                        {filteredSermons.map((sermon, i) => (
+                            <motion.div
+                                key={sermon.id}
+                                layout
+                                initial={{ opacity: 0, y: 40 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                transition={{ duration: 0.6, delay: i * 0.1 }}
+                                className="group cursor-pointer"
+                                onClick={() => setSelectedSermon(sermon)}
+                            >
+                                <div className="relative aspect-video rounded-sm overflow-hidden mb-8 bg-white/5 border border-white/10">
+                                    <Image
+                                        src={sermon.thumbnail}
+                                        alt={sermon.title}
+                                        fill
+                                        className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
+                                    />
+                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <div className="w-16 h-16 border border-white/20 rounded-full flex items-center justify-center backdrop-blur-md">
+                                            <svg className="w-6 h-6 fill-white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                                        </div>
+                                    </div>
+                                    <div className="absolute bottom-4 right-4 bg-black/80 px-3 py-1 text-[9px] font-black tracking-widest uppercase">
+                                        {sermon.duration}
+                                    </div>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div className="flex justify-between items-start">
+                                        <p className="text-[#C5A059] text-[9px] font-black tracking-[0.4em] uppercase">{sermon.series}</p>
+                                        <p className="text-white/20 text-[9px] font-bold">{sermon.date}</p>
+                                    </div>
+                                    <h3 className="text-2xl font-black uppercase tracking-tighter leading-none group-hover:text-[#C5A059] transition-colors">
+                                        {sermon.title}
+                                    </h3>
+                                    <p className="text-white/40 text-sm line-clamp-2 italic font-light leading-relaxed">
+                                        {sermon.description}
+                                    </p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+                </div>
+            </section>
+
+            {/* --- 4. FULL-SCREEN SERMON PLAYER (MODAL) --- */}
+            <AnimatePresence>
+                {selectedSermon && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[1000] bg-black flex flex-col"
+                    >
+                        {/* Modal Header */}
+                        <div className="p-8 flex justify-between items-center bg-gradient-to-b from-black to-transparent">
+                            <div className="flex items-center gap-6">
+                                <span className="text-[#C5A059] font-black text-xs tracking-[0.5em] uppercase">{selectedSermon.series}</span>
+                                <span className="w-1 h-1 bg-white/20 rounded-full" />
+                                <h2 className="text-xl font-black uppercase tracking-tighter">{selectedSermon.title}</h2>
+                            </div>
+                            <button
+                                onClick={() => setSelectedSermon(null)}
+                                className="text-[10px] font-black uppercase tracking-widest border border-white/20 px-8 py-3 hover:bg-white hover:text-black transition-all"
+                            >
+                                Close Player
+                            </button>
+                        </div>
+
+                        {/* Video Placeholder Area */}
+                        <div className="flex-grow flex items-center justify-center p-6 md:p-20">
+                            <div className="relative w-full h-full max-w-6xl aspect-video bg-white/5 rounded-sm overflow-hidden flex items-center justify-center border border-white/10 group">
+                                <Image src={selectedSermon.thumbnail} alt="Video" fill className="object-cover opacity-20 group-hover:opacity-40 transition-opacity" />
+                                <div className="relative text-center z-10">
+                                    <p className="text-white/40 text-[10px] font-black tracking-[1em] uppercase mb-8">Ready to Stream</p>
+                                    <button className="w-32 h-32 bg-[#C5A059] text-black rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+                                        <svg className="w-10 h-10 fill-current ml-2" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                                    </button>
                                 </div>
                             </div>
-                            <div className="p-8 space-y-3">
-                                <p className="text-sky font-bold text-[10px] uppercase tracking-widest">{sermon.category}</p>
-                                <h3 className="text-xl font-bold text-wine leading-tight">{sermon.title}</h3>
-                                <p className="text-gray-400 text-xs font-light">{sermon.speaker} • {sermon.date}</p>
+                        </div>
+
+                        {/* Modal Footer Info */}
+                        <div className="p-12 border-t border-white/5 grid grid-cols-1 md:grid-cols-3 gap-12">
+                            <div>
+                                <p className="text-[10px] font-black text-[#C5A059] uppercase tracking-widest mb-2">Preached By</p>
+                                <p className="text-2xl font-black uppercase">{selectedSermon.speaker}</p>
+                            </div>
+                            <div className="md:col-span-2">
+                                <p className="text-[10px] font-black text-[#C5A059] uppercase tracking-widest mb-2">Message Description</p>
+                                <p className="text-white/60 text-lg italic">{selectedSermon.description}</p>
                             </div>
                         </div>
-                    ))}
-                </div>
-            </section>
-
-            {/* 3. CALL TO ACTION */}
-            <section className="px-6 max-w-5xl mx-auto text-center pb-24">
-                <div className="reveal reveal-up bg-wine rounded-[3rem] p-12 md:p-20 shadow-2xl text-white space-y-6 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-sky/10 rounded-full -mr-32 -mt-32"></div>
-                    <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight relative z-10">Subscribe for More</h2>
-                    <p className="text-white/60 max-w-lg mx-auto font-light italic relative z-10">
-                        Join our digital family on YouTube and never miss a prophetic encounter.
-                    </p>
-                    <Link href="https://www.youtube.com/@your-channel-name" target="_blank" rel="noopener noreferrer" className="inline-block relative z-10">
-                        <button className="flex items-center gap-3 justify-center px-12 py-5 bg-white text-wine rounded-xl font-black uppercase tracking-widest text-xs hover:bg-sky hover:text-white transition-all shadow-xl mt-6">
-                           Visit Channel
-                        </button>
-                    </Link>
-                </div>
-            </section>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <style jsx global>{`
-                .reveal { opacity: 0; transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
-                .reveal-up { transform: translateY(40px); }
-                .reveal-visible { opacity: 1; transform: translate(0) scale(1); }
-            `}</style>
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        main { cursor: crosshair; }
+      `}</style>
         </main>
     );
 }
