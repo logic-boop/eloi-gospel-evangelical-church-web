@@ -1,156 +1,155 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 
-interface GalleryItem {
-    id: string;
-    src: string;
-    category: string;
-    title: string;
-    size: 'large' | 'medium' | 'small'; // For asymmetrical grid
-}
+const GALLERY_DATA = [
+    { id: 1, category: 'Crusades', src: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069', title: 'Prophetic Explosion Lagos' },
+    { id: 2, category: 'CINO', src: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2070', title: 'CINO Outreach' },
+    { id: 3, category: 'Global', src: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=2070', title: 'Leadership Conference' },
+    { id: 4, category: 'Crusades', src: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070', title: 'Night of Fire' },
+    { id: 5, category: 'CINO', src: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=2070', title: 'Fatherless No More' },
+    { id: 6, category: 'Global', src: 'https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2069', title: 'International Summit' },
+];
 
-export default function GalleryPage() {
-    const [activeFilter, setActiveFilter] = useState('ALL');
-    const [selectedImage, setSelectedImage] = useState<GalleryItem | null>(null);
-    const [mounted, setMounted] = useState(false);
+export default function MissionGallery() {
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [filter, setFilter] = useState('All');
+    const [selectedImg, setSelectedImg] = useState<any>(null);
 
     useEffect(() => {
-        setMounted(true);
+        setIsLoaded(true);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('reveal-visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }, []);
 
-    const categories = ['ALL', 'WORSHIP', 'MISSIONS', 'EVENTS', 'COMMUNITY'];
-
-    const galleryItems: GalleryItem[] = [
-        { id: '1', src: 'https://images.unsplash.com/photo-1543360253-90d297a7027c?q=80&w=2070', category: 'WORSHIP', title: 'THE REVIVAL', size: 'large' },
-        { id: '2', src: 'https://images.unsplash.com/photo-1510474640149-16624a9e223c?q=80&w=1920', category: 'MISSIONS', title: 'BEYOND BORDERS', size: 'small' },
-        { id: '3', src: 'https://images.unsplash.com/photo-1628170272212-32a874051a82?q=80&w=2070', category: 'COMMUNITY', title: 'IMPACT DAY', size: 'medium' },
-        { id: '4', src: 'https://images.unsplash.com/photo-1579787355208-8f85f858189c?q=80&w=2070', category: 'EVENTS', title: 'YOUTH NIGHT', size: 'medium' },
-        { id: '5', src: 'https://images.unsplash.com/photo-1601618037042-4913f0240d9d?q=80&w=2070', category: 'WORSHIP', title: 'DIVINE ENCOUNTER', size: 'small' },
-        { id: '6', src: 'https://images.unsplash.com/photo-1610410636838-8c54c3c3a9f0?q=80&w=1935', category: 'WORSHIP', title: 'THE WORD', size: 'large' },
-    ];
-
-    const filteredItems = activeFilter === 'ALL'
-        ? galleryItems
-        : galleryItems.filter(item => item.category === activeFilter);
-
-    if (!mounted) return null;
+    const filteredImages = filter === 'All'
+        ? GALLERY_DATA
+        : GALLERY_DATA.filter(img => img.category === filter);
 
     return (
-        <main className="min-h-screen bg-[#050505] text-white pt-40 pb-32 overflow-x-hidden">
+        <main className={`transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} bg-[#050505] min-h-screen overflow-x-hidden selection:bg-[#C5A059] selection:text-black`}>
 
-            {/* --- HERO: BOLD & MINIMAL --- */}
-            <section className="px-6 mb-32 relative">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-baseline justify-between">
-                    <motion.h1
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="text-[12vw] md:text-[8vw] font-black uppercase tracking-tighter leading-[0.8] mb-8 md:mb-0"
-                    >
-                        THE <br /> <span className="text-[#C5A059] italic">ARCHIVE</span>
-                    </motion.h1>
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.5 }}
-                        className="text-right max-w-xs"
-                    >
-                        <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[#C5A059] mb-4">Visual Testimony</p>
-                        <p className="text-white/40 text-sm leading-relaxed italic">Documenting the supernatural movement of the Holy Spirit across the globe.</p>
-                    </motion.div>
+            {/* --- 1. ARCHITECTURAL HERO --- */}
+            <section className="relative pt-[25vh] pb-32 px-6 overflow-hidden">
+                <div className="absolute inset-0 z-0">
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505] z-10" />
+                    <Image src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070" fill alt="bg" className="object-cover grayscale opacity-30 scale-110" />
                 </div>
-            </section>
 
-            {/* --- FILTER BAR: UNDERSTATED LUXURY --- */}
-            <section className="px-6 mb-24">
-                <div className="max-w-7xl mx-auto flex flex-wrap gap-x-12 gap-y-6 border-b border-white/5 pb-8">
-                    {categories.map((cat) => (
-                        <button
-                            key={cat}
-                            onClick={() => setActiveFilter(cat)}
-                            className={`text-[11px] font-black uppercase tracking-[0.4em] transition-all relative py-2 ${activeFilter === cat ? 'text-[#C5A059]' : 'text-white/20 hover:text-white'
-                                }`}
-                        >
-                            {cat}
-                            {activeFilter === cat && (
-                                <motion.div layoutId="underline" className="absolute bottom-0 left-0 w-full h-[2px] bg-[#C5A059]" />
-                            )}
-                        </button>
-                    ))}
-                </div>
-            </section>
+                <div className="relative z-20 max-w-[1800px] mx-auto text-center">
+                    <motion.h4
+                        initial={{ opacity: 0, tracking: "0.2em" }}
+                        animate={{ opacity: 1, tracking: "0.8em" }}
+                        className="reveal text-[#C5A059] font-black uppercase text-[10px] mb-8"
+                    >
+                        The Visual Testimony
+                    </motion.h4>
+                    <h1 className="reveal reveal-up delay-100 text-[12vw] md:text-[10vw] font-black text-white uppercase tracking-tighter leading-[0.8] mb-12">
+                        MISSION <br /> <span className="text-transparent border-b-4 border-white/5 italic">ARCHIVES.</span>
+                    </h1>
 
-            {/* --- ASYMMETRICAL GRID: THE ART GALLERY --- */}
-            <section className="px-6">
-                <div className="max-w-7xl mx-auto">
-                    <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
-                        <AnimatePresence mode="popLayout">
-                            {filteredItems.map((item, i) => (
-                                <motion.div
-                                    key={item.id}
-                                    layout
-                                    initial={{ opacity: 0, y: 40 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, scale: 0.9 }}
-                                    transition={{ duration: 0.8, delay: i * 0.1, ease: [0.215, 0.61, 0.355, 1] }}
-                                    onClick={() => setSelectedImage(item)}
-                                    className="relative break-inside-avoid group cursor-none"
-                                >
-                                    <div className="relative overflow-hidden rounded-sm bg-white/5 grayscale group-hover:grayscale-0 transition-all duration-1000 border border-white/5">
-                                        <Image
-                                            src={item.src}
-                                            alt={item.title}
-                                            width={800} height={1000}
-                                            className="w-full object-cover transition-transform duration-[2s] group-hover:scale-105"
-                                        />
-
-                                        {/* Hover Info */}
-                                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
-                                            <p className="text-[#C5A059] text-[9px] font-black uppercase tracking-[0.3em] mb-2">{item.category}</p>
-                                            <h3 className="text-3xl font-black text-white uppercase tracking-tighter leading-none">{item.title}</h3>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </AnimatePresence>
+                    {/* CATEGORY FILTERS: PREMIUM UNDERSTATED STYLE */}
+                    <div className="reveal reveal-up delay-200 flex flex-wrap justify-center gap-12 mt-20 border-t border-white/5 pt-12">
+                        {['All', 'Crusades', 'CINO', 'Global'].map((cat) => (
+                            <button
+                                key={cat}
+                                onClick={() => setFilter(cat)}
+                                className={`text-[10px] font-black uppercase tracking-[0.4em] transition-all duration-500 relative pb-2 ${filter === cat ? 'text-[#C5A059]' : 'text-white/20 hover:text-white'}`}
+                            >
+                                {cat}
+                                {filter === cat && (
+                                    <motion.div layoutId="filterUnderline" className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#C5A059]" />
+                                )}
+                            </button>
+                        ))}
                     </div>
                 </div>
             </section>
 
-            {/* --- PREMIUM LIGHTBOX: THE SHOWCASE --- */}
+            {/* --- 2. MASONRY GRID SECTION: THE ART GALLERY --- */}
+            <section className="py-24 px-6 max-w-[1800px] mx-auto">
+                <div className="columns-1 md:columns-2 lg:columns-3 gap-10 space-y-10">
+                    <AnimatePresence mode="popLayout">
+                        {filteredImages.map((img) => (
+                            <motion.div
+                                layout
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                key={img.id}
+                                onClick={() => setSelectedImg(img)}
+                                className="reveal reveal-up break-inside-avoid relative group cursor-crosshair overflow-hidden rounded-sm border border-white/5 bg-[#0A0A0A]"
+                            >
+                                <Image
+                                    src={img.src}
+                                    alt={img.title}
+                                    width={800}
+                                    height={1000}
+                                    className="w-full h-auto object-cover transition-all duration-[2s] group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100"
+                                />
+
+                                {/* HOVER OVERLAY: CINEMATIC DETAILS */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex flex-col justify-end p-10">
+                                    <p className="text-[#C5A059] font-black uppercase tracking-[0.4em] text-[9px] mb-4">Territory: {img.category}</p>
+                                    <h3 className="text-white text-4xl font-black uppercase tracking-tighter leading-none">{img.title}</h3>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+                </div>
+            </section>
+
+            {/* --- 3. THE BACK LINK (IMPERIAL SYNC) --- */}
+            <section className="py-40 text-center">
+                <Link href="/about/apostle-famose" className="group inline-flex flex-col items-center">
+                    <span className="text-white/20 text-[10px] font-black uppercase tracking-[0.8em] group-hover:text-[#C5A059] transition-colors duration-500">Return to the Apostle&apos;s Journey</span>
+                    <motion.div
+                        animate={{ height: [40, 80, 40] }}
+                        transition={{ repeat: Infinity, duration: 3 }}
+                        className="w-px bg-[#C5A059] mt-8"
+                    />
+                </Link>
+            </section>
+
+            {/* --- 4. CINEMATIC LIGHTBOX: THE SHOWCASE --- */}
             <AnimatePresence>
-                {selectedImage && (
+                {selectedImg && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[1000] bg-black/95 backdrop-blur-3xl flex items-center justify-center p-4 md:p-12 overflow-hidden"
-                        onClick={() => setSelectedImage(null)}
+                        className="fixed inset-0 z-[999] bg-black/98 backdrop-blur-3xl flex items-center justify-center p-6 md:p-20"
+                        onClick={() => setSelectedImg(null)}
                     >
                         <motion.div
-                            initial={{ scale: 0.95, y: 20 }}
+                            initial={{ scale: 0.9, y: 20 }}
                             animate={{ scale: 1, y: 0 }}
-                            exit={{ scale: 0.95, y: 20 }}
-                            className="relative w-full h-full flex flex-col md:flex-row gap-12 max-w-[1800px]"
+                            className="relative w-full h-full flex flex-col md:flex-row gap-16 max-w-[1700px]"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <div className="relative flex-grow h-full overflow-hidden rounded-sm">
-                                <Image src={selectedImage.src} alt={selectedImage.title} fill className="object-cover" />
+                            <div className="relative flex-[2] h-full rounded-sm overflow-hidden border border-white/10 shadow-2xl">
+                                <Image src={selectedImg.src} alt="Lightbox" fill className="object-cover" />
                             </div>
 
-                            <div className="md:w-1/3 flex flex-col justify-center space-y-12">
-                                <div>
-                                    <span className="text-[#C5A059] font-black text-xs uppercase tracking-[0.6em]">{selectedImage.category}</span>
-                                    <h2 className="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter leading-none mt-4">{selectedImage.title}</h2>
+                            <div className="flex-1 flex flex-col justify-center space-y-10">
+                                <div className="space-y-4">
+                                    <span className="text-[#C5A059] font-black tracking-[0.6em] text-xs uppercase">{selectedImg.category}</span>
+                                    <h2 className="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter leading-none">{selectedImg.title}</h2>
                                 </div>
-                                <p className="text-white/40 text-lg leading-relaxed font-light italic">Captured during a moment of divine visitation. This archive serves as a permanent testimony of God's power in our generation.</p>
-
+                                <p className="text-white/40 text-xl font-light italic leading-relaxed border-l border-[#C5A059] pl-8">
+                                    A divine moment captured within the global mandate. This archive serves as a permanent witness to the fire on the altar.
+                                </p>
                                 <button
-                                    onClick={() => setSelectedImage(null)}
-                                    className="w-fit px-12 py-5 bg-white text-[#050505] rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#C5A059] transition-colors"
+                                    onClick={() => setSelectedImg(null)}
+                                    className="w-fit text-[10px] font-black uppercase tracking-[0.5em] text-white/40 border border-white/10 px-12 py-6 hover:bg-white hover:text-black transition-all"
                                 >
-                                    Close View
+                                    Close Archive [X]
                                 </button>
                             </div>
                         </motion.div>
@@ -158,12 +157,14 @@ export default function GalleryPage() {
                 )}
             </AnimatePresence>
 
-            <style jsx global>{`
-        main { cursor: crosshair; }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #C5A059; }
-      `}</style>
+            <style jsx>{`
+                .reveal { opacity: 0; transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+                .reveal-up { transform: translateY(60px); }
+                .reveal-visible { opacity: 1; transform: translate(0); }
+                ::-webkit-scrollbar { width: 3px; }
+                ::-webkit-scrollbar-track { background: #050505; }
+                ::-webkit-scrollbar-thumb { background: #C5A059; }
+            `}</style>
         </main>
     );
 }

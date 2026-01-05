@@ -125,50 +125,50 @@ export default function PlanVisitPage() {
                                 <div className="grid grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Full Name</label>
-                                        <input
-                                            required
-                                            type="text"
+                                        <input 
+                                            required 
+                                            type="text" 
                                             value={formData.name}
-                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors"
-                                            placeholder="John Doe"
+                                            onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                            className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors" 
+                                            placeholder="John Doe" 
                                         />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest">WhatsApp Number</label>
-                                        <input
-                                            required
-                                            type="tel"
+                                        <input 
+                                            required 
+                                            type="tel" 
                                             value={formData.phone}
-                                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                            className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors"
-                                            placeholder="+234..."
+                                            onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                                            className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors" 
+                                            placeholder="+234..." 
                                         />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Select Date of Visit</label>
-                                    <input
-                                        required
-                                        type="date"
+                                    <input 
+                                        required 
+                                        type="date" 
                                         value={formData.date}
-                                        onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                                        className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors"
+                                        onChange={(e) => setFormData({...formData, date: e.target.value})}
+                                        className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors" 
                                     />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Any Prayer Requests?</label>
-                                    <textarea
+                                    <textarea 
                                         value={formData.message}
-                                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                        className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors"
-                                        rows={2}
+                                        onChange={(e) => setFormData({...formData, message: e.target.value})}
+                                        className="w-full border-b-2 border-gray-100 py-3 focus:border-sky outline-none transition-colors" 
+                                        rows={2} 
                                         placeholder="Optional..."
                                     ></textarea>
                                 </div>
-                                <button
+                                <button 
                                     disabled={formStatus === 'submitting'}
-                                    type="submit"
+                                    type="submit" 
                                     className="w-full bg-wine text-white py-6 rounded-2xl font-black uppercase tracking-widest text-[11px] hover:bg-sky transition-all shadow-xl disabled:opacity-50"
                                 >
                                     {formStatus === 'submitting' ? 'Processing...' : 'Confirm My Visit'}
