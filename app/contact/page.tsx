@@ -53,8 +53,8 @@ export default function ContactPage() {
                             <div className="space-y-4 text-gray-500 font-light">
                                 <p className="text-xl leading-relaxed">
                                     Eloi Gospel Evangelical Church <br />
-                                    Faith's International Ministry <br />
-                                    Lagos, Nigeria.
+                                    King's Worship Center <br />
+                                    Ibadan, Nigeria.
                                 </p>
                                 <p className="text-sky font-bold uppercase text-[10px] tracking-[0.3em]">Apostolic Secretariat Office</p>
                             </div>
@@ -72,12 +72,12 @@ export default function ContactPage() {
                     <div className="reveal reveal-up delay-100 lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-12 bg-white p-12 md:p-16 rounded-[4rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.05)] border border-gray-50">
                         <div className="space-y-4">
                             <h4 className="text-sky font-black uppercase tracking-widest text-[10px]">Call or WhatsApp</h4>
-                            <p className="text-3xl font-black text-wine tracking-tighter hover:text-sky transition-colors cursor-pointer">+234 (0) 800 ELOI FIRE</p>
+                            <p className="text-3xl font-black text-wine tracking-tighter hover:text-sky transition-colors cursor-pointer">+234 (805) 404 9868 | +234 (905) 340 1233 ELOI FIRE</p>
                             <p className="text-gray-400 text-xs font-medium uppercase tracking-widest">Available Mon - Fri | 9am - 5pm WAT</p>
                         </div>
                         <div className="space-y-4">
                             <h4 className="text-sky font-black uppercase tracking-widest text-[10px]">Official Email</h4>
-                            <p className="text-2xl font-black text-wine tracking-tighter lowercase hover:text-sky transition-colors cursor-pointer">info@eloigospelchurch.org</p>
+                            <p className="text-2xl font-black text-wine tracking-tighter lowercase hover:text-sky transition-colors cursor-pointer">eloigospelevangelicalchurch@gmail.com</p>
                             <p className="text-gray-400 text-xs font-medium uppercase tracking-widest">Apostolic Response within 24h</p>
                         </div>
                         <div className="md:col-span-2 pt-8 flex flex-wrap gap-4">

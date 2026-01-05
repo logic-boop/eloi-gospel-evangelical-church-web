@@ -250,7 +250,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 ELOI GOSPEL <br /> <span className="text-[#C5A059]">EVANGELICAL CHURCH</span>
               </h3>
               <p className="text-white/40 font-light max-w-sm italic text-lg leading-relaxed">"The fire shall ever be burning upon the altar; it shall never go out."</p>
-              <p className="text-[#C5A059] font-bold text-[11px] tracking-[0.3em] uppercase">{OFFICIAL_EMAIL}</p>
+              <p className="text-[#C5A059] font-bold text-[11px] tracking-[0.3em] lowercase">{OFFICIAL_EMAIL}</p>
             </div>
             <div className="space-y-6">
               <h4 className="text-[#C5A059] font-black uppercase text-[10px] tracking-[0.4em]">Global Presence</h4>
