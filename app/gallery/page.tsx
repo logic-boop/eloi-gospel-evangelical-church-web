@@ -44,8 +44,8 @@ export default function MissionGallery() {
 
                 <div className="relative z-20 max-w-[1800px] mx-auto text-center">
                     <motion.h4
-                        initial={{ opacity: 0, tracking: "0.2em" }}
-                        animate={{ opacity: 1, tracking: "0.8em" }}
+                        initial={{ opacity: 0, letterSpacing: "0.2em" }}
+                        animate={{ opacity: 1, letterSpacing: "0.8em" }}
                         className="reveal text-[#C5A059] font-black uppercase text-[10px] mb-8"
                     >
                         The Visual Testimony
@@ -54,7 +54,6 @@ export default function MissionGallery() {
                         MISSION <br /> <span className="text-transparent border-b-4 border-white/5 italic">ARCHIVES.</span>
                     </h1>
 
-                    {/* CATEGORY FILTERS: PREMIUM UNDERSTATED STYLE */}
                     <div className="reveal reveal-up delay-200 flex flex-wrap justify-center gap-12 mt-20 border-t border-white/5 pt-12">
                         {['All', 'Crusades', 'CINO', 'Global'].map((cat) => (
                             <button
@@ -72,7 +71,7 @@ export default function MissionGallery() {
                 </div>
             </section>
 
-            {/* --- 2. MASONRY GRID SECTION: THE ART GALLERY --- */}
+            {/* --- 2. MASONRY GRID --- */}
             <section className="py-24 px-6 max-w-[1800px] mx-auto">
                 <div className="columns-1 md:columns-2 lg:columns-3 gap-10 space-y-10">
                     <AnimatePresence mode="popLayout">
@@ -94,7 +93,6 @@ export default function MissionGallery() {
                                     className="w-full h-auto object-cover transition-all duration-[2s] group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100"
                                 />
 
-                                {/* HOVER OVERLAY: CINEMATIC DETAILS */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex flex-col justify-end p-10">
                                     <p className="text-[#C5A059] font-black uppercase tracking-[0.4em] text-[9px] mb-4">Territory: {img.category}</p>
                                     <h3 className="text-white text-4xl font-black uppercase tracking-tighter leading-none">{img.title}</h3>
@@ -105,7 +103,7 @@ export default function MissionGallery() {
                 </div>
             </section>
 
-            {/* --- 3. THE BACK LINK (IMPERIAL SYNC) --- */}
+            {/* --- 3. RETURN LINK --- */}
             <section className="py-40 text-center">
                 <Link href="/about/apostle-famose" className="group inline-flex flex-col items-center">
                     <span className="text-white/20 text-[10px] font-black uppercase tracking-[0.8em] group-hover:text-[#C5A059] transition-colors duration-500">Return to the Apostle&apos;s Journey</span>
@@ -117,7 +115,7 @@ export default function MissionGallery() {
                 </Link>
             </section>
 
-            {/* --- 4. CINEMATIC LIGHTBOX: THE SHOWCASE --- */}
+            {/* --- 4. LIGHTBOX --- */}
             <AnimatePresence>
                 {selectedImg && (
                     <motion.div
@@ -161,9 +159,6 @@ export default function MissionGallery() {
                 .reveal { opacity: 0; transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
                 .reveal-up { transform: translateY(60px); }
                 .reveal-visible { opacity: 1; transform: translate(0); }
-                ::-webkit-scrollbar { width: 3px; }
-                ::-webkit-scrollbar-track { background: #050505; }
-                ::-webkit-scrollbar-thumb { background: #C5A059; }
             `}</style>
         </main>
     );
