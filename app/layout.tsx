@@ -26,7 +26,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     setIsPartnershipOpen(false);
   }, [pathname]);
 
-  // Place this near your other useEffects
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -76,9 +75,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/church-logo2.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
       </head>
-      <body className="bg-[#FCFBFA] text-gray-900 selection:bg-[#C5A059] selection:text-white antialiased overflow-x-hidden w-full">
+      <body className="bg-[#050505] text-gray-900 selection:bg-[#C5A059] selection:text-white antialiased overflow-x-hidden w-full">
 
-        {/* HEADER: SUBTLE TINT (REDUCED TRANSPARENCY BY A NOTCH) */}
+        {/* 1. THE PHANTOM SPACER: This gives the header its own dedicated section 
+            so the Hero images start AFTER the header. */}
+        <div className="h-28 w-full bg-[#050505] hidden md:block"></div>
+        <div className="h-20 w-full bg-[#050505] md:hidden"></div>
+
+        {/* 2. THE HEADER: Remains FIXED so it can still handle transparency on scroll. */}
         <header
           className={`fixed top-0 w-full z-[100] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] ${scrolled
             ? 'h-20 bg-[#0A192F]/20 backdrop-blur-xl border-b border-white/5'
@@ -154,64 +158,37 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
 
-        {/* --- REST OF THE CODE (MODALS, FOOTER, ETC) REMAIN UNCHANGED --- */}
-        {/* --- PREMIUM MOBILE MENU FIX --- */}
+        {/* MOBILE MENU */}
         <div className={`fixed inset-0 z-[90] md:hidden transition-all duration-700 ${isOpen ? 'visible' : 'invisible'}`}>
-          {/* Glass Overlay */}
-          <div
-            className={`absolute inset-0 bg-[#0A192F]/80 backdrop-blur-2xl transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
-            onClick={() => setIsOpen(false)}
-          ></div>
-
+          <div className={`absolute inset-0 bg-[#0A192F]/80 backdrop-blur-2xl transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`} onClick={() => setIsOpen(false)}></div>
           <nav className={`absolute top-0 right-0 w-[85%] h-[100dvh] bg-[#0A192F] border-l border-white/5 flex flex-col transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-
-            {/* Scrollable Container - This prevents the "cutting off" issue */}
-            <div className="flex-1 overflow-y-auto overflow-x-hidden px-8 pt-32 pb-10 scrollbar-hide">
+            <div className="flex-1 overflow-y-auto px-8 pt-32 pb-10 scrollbar-hide">
               <div className="flex flex-col gap-6">
                 <p className="text-[#C5A059] font-black text-[9px] uppercase tracking-[0.5em] mb-4">Navigation</p>
-
                 {navLinks.map((link, i) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    style={{ transitionDelay: `${i * 50}ms` }}
-                    className={`text-4xl font-black uppercase tracking-tighter text-white transition-all duration-500 ${isOpen ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'}`}
-                  >
+                  <Link key={link.name} href={link.href} style={{ transitionDelay: `${i * 50}ms` }} className={`text-4xl font-black uppercase tracking-tighter text-white transition-all duration-500 ${isOpen ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'}`}>
                     {link.name}
                   </Link>
                 ))}
-
                 <div className="h-[1px] w-full bg-white/10 my-6" />
-
                 <p className="text-[#C5A059] font-black text-[9px] uppercase tracking-[0.5em] mb-4">Missions</p>
                 <div className="flex flex-col gap-6">
                   {partners.map((p, i) => (
-                    <Link
-                      key={p.name}
-                      href={p.href}
-                      style={{ transitionDelay: `${(navLinks.length + i) * 50}ms` }}
-                      className={`group transition-all duration-500 ${isOpen ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'}`}
-                    >
+                    <Link key={p.name} href={p.href} style={{ transitionDelay: `${(navLinks.length + i) * 50}ms` }} className={`group transition-all duration-500 ${isOpen ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'}`}>
                       <p className="text-lg font-black uppercase text-white/90">{p.name}</p>
                       <p className="text-[10px] text-white/30 uppercase tracking-widest mt-1">{p.sub}</p>
                     </Link>
                   ))}
                 </div>
               </div>
-
-              {/* Give Button inside Mobile Menu */}
               <div className={`mt-12 transition-all duration-1000 delay-500 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <button
-                  onClick={() => { setIsGiveModalOpen(true); setIsOpen(false); }}
-                  className="w-full py-6 bg-[#C5A059] text-[#0A192F] rounded-2xl font-black uppercase tracking-[0.3em] text-xs shadow-2xl"
-                >
+                <button onClick={() => { setIsGiveModalOpen(true); setIsOpen(false); }} className="w-full py-6 bg-[#C5A059] text-[#0A192F] rounded-2xl font-black uppercase tracking-[0.3em] text-xs shadow-2xl">
                   Give Online
                 </button>
               </div>
             </div>
           </nav>
         </div>
-
 
         {/* GIVE MODAL */}
         {isGiveModalOpen && (

@@ -1,106 +1,158 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 
-export default function ApostleDetailedBio() {
-    return (
-        <main className="bg-[#050505] text-white selection:bg-[#C5A059] selection:text-black min-h-screen">
+export default function ApostleBiography() {
+    const [isLoaded, setIsLoaded] = useState(false);
 
-            {/* --- HERO: THE ICONIC PORTRAIT --- */}
-            <section className="relative h-[90vh] flex items-end pb-20 px-6 overflow-hidden">
+    useEffect(() => {
+        setIsLoaded(true);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('reveal-visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }, []);
+
+    return (
+        <main className={`transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} bg-[#050505] selection:bg-sky selection:text-white overflow-x-hidden`}>
+
+            {/* --- 1. THE MONOLITH HERO: APOSTLE.JPEG --- */}
+            <section className="relative h-screen w-full flex items-end overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974" // Actual Apostle photo
-                        alt="Apostle (Dr.) Moses Famose"
+                        src="/apostle.jpeg"
+                        alt="Apostle (Dr.) Moses Babatunde Olubode Famose"
                         fill
-                        className="object-cover grayscale opacity-40 scale-105"
+                        className="object-cover object-top grayscale-[20%] brightness-[0.7] scale-105"
                         priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent" />
+                    {/* Cinematic Vignette */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-transparent to-transparent z-10" />
                 </div>
 
-                <div className="relative z-10 max-w-[1800px] mx-auto w-full">
-                    <motion.span
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="text-[#C5A059] font-black text-xs tracking-[1em] uppercase mb-8 block"
+                <div className="relative z-20 w-full max-w-[1800px] px-8 pb-20 md:pb-32">
+                    <motion.div
+                        initial={{ opacity: 0, letterSpacing: "0.5em" }}
+                        animate={{ opacity: 1, letterSpacing: "1.2em" }}
+                        className="text-sky font-black uppercase text-[10px] md:text-xs mb-8"
                     >
-                        The Commissioned Voice
-                    </motion.span>
-                    <motion.h1
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-[12vw] md:text-[9vw] font-black uppercase tracking-tighter leading-[0.8]"
-                    >
-                        APOSTLE <br /> <span className="text-transparent border-b-2 border-white/10 italic">MOSES FAMOSE</span>
-                    </motion.h1>
+                        The Apostolic Mandate
+                    </motion.div>
+                    <h1 className="reveal reveal-up text-[12vw] md:text-[10vw] font-black text-white uppercase tracking-tighter leading-[0.75] mb-6">
+                        MOSES <br /> <span className="text-transparent border-b-8 border-wine italic">FAMOSE.</span>
+                    </h1>
+                    <p className="text-white/40 text-sm font-black uppercase tracking-[0.6em] max-w-md">
+                        Apostle (Dr.) Babatunde Olubode Famose
+                    </p>
                 </div>
             </section>
 
-            {/* --- THE BIOGRAPHY & STORIES --- */}
-            <section className="py-40 px-6 max-w-5xl mx-auto space-y-32">
-                <div className="space-y-12">
-                    <h2 className="text-[#C5A059] font-black text-sm tracking-[0.5em] uppercase border-l-2 border-[#C5A059] pl-8">The Genesis & Call</h2>
-                    <div className="space-y-8 text-2xl md:text-3xl text-white/70 font-light leading-snug italic">
+            {/* --- 2. THE PHILOSOPHY OF POWER --- */}
+            <section className="py-40 px-8 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+                <div className="reveal reveal-left space-y-12">
+                    <div className="space-y-4">
+                        <span className="text-wine font-black text-xs uppercase tracking-[0.5em]">The Calling</span>
+                        <h2 className="text-5xl md:text-8xl font-black text-white uppercase tracking-tighter leading-none">A DIVINE <br /> COMMISSION.</h2>
+                    </div>
+                    <div className="space-y-10 text-white/60 text-xl font-light italic leading-relaxed border-l-4 border-sky pl-12 py-4">
                         <p>
-                            Apostle (Dr.) Moses Babatunde Olubode Famose is not just a leader; he is a man whose life was interrupted by a divine mandate to <span className="text-white font-bold">"Awaken the Sleeping Giants."</span>
+                            Apostle (Dr.) Moses Famose is a chosen vessel of restoration, carrying a mandate to ignite the fire of the Holy Spirit across the nations.
                         </p>
                         <p>
-                            With a PhD in Theology and a heavy prophetic burden, he has dedicated over three decades to the work of the ministry, establishing Eloi Gospel Evangelical Church as a beacon of fire and excellence.
+                            His ministry is defined by a surgical prophetic precision and a deep-seated burden for the total man—spirit, soul, and body.
                         </p>
                     </div>
                 </div>
 
-                {/* --- MISSIONS SECTION --- */}
-                <div className="space-y-20 pt-20 border-t border-white/5">
-                    <div className="flex flex-col md:flex-row justify-between items-baseline gap-8">
-                        <h2 className="text-5xl font-black uppercase tracking-tighter">Missionary <span className="text-[#C5A059] italic">Impact</span></h2>
-                        <p className="text-white/30 font-mono text-xs uppercase tracking-widest">Global Archives // 1996 - 2026</p>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-16 text-white/50 text-xl font-light leading-relaxed">
-                        <p>
-                            His missions have taken him across the rugged terrains of Africa to the sophisticated boardrooms of Europe and North America. Under his leadership, the church has established countless mission outposts, focusing on both spiritual revival and practical human dignity.
-                        </p>
-                        <p>
-                            Beyond the pulpit, his role as the Africa Continent Representative for CAFO has allowed him to champion the cause of millions of vulnerable children, bridging the gap between apostolic fervor and global leadership.
-                        </p>
+                <div className="reveal reveal-right relative aspect-[3/4] group">
+                    <div className="absolute -inset-4 border border-wine/30 translate-x-8 translate-y-8 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-1000" />
+                    <div className="relative h-full w-full overflow-hidden bg-wine/10">
+                        <Image
+                            src="/apostle.jpeg"
+                            alt="The Mantle"
+                            fill
+                            className="object-cover grayscale group-hover:grayscale-0 transition-all duration-[2s]"
+                        />
                     </div>
                 </div>
+            </section>
 
-                {/* --- CTA TO GALLERY (THE LINK YOU REQUESTED) --- */}
-                <div className="pt-32">
-                    <Link href="/gallery">
-                        <motion.div
-                            whileHover={{ scale: 0.98 }}
-                            className="bg-[#0A0A0A] p-16 rounded-sm border border-[#C5A059]/20 hover:border-[#C5A059] transition-all duration-700 group cursor-pointer"
-                        >
-                            <div className="flex flex-col md:flex-row justify-between items-center gap-10 text-center md:text-left">
-                                <div className="space-y-4">
-                                    <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter group-hover:text-[#C5A059] transition-colors">
-                                        View Mission <br /> Gallery
-                                    </h3>
-                                    <p className="text-white/30 text-sm tracking-widest uppercase">Witness the visual testimony of his works</p>
-                                </div>
-                                <div className="w-24 h-24 rounded-full border border-[#C5A059] flex items-center justify-center group-hover:bg-[#C5A059] group-hover:text-black transition-all text-3xl">
-                                    →
-                                </div>
+            {/* --- 3. THE GLOBAL MANDATE PILLARS --- */}
+            <section className="py-40 bg-[#080808] border-y border-white/5">
+                <div className="max-w-[1800px] mx-auto px-8">
+                    <div className="flex flex-col md:flex-row justify-between items-end mb-32 gap-12">
+                        <h2 className="text-7xl md:text-9xl font-black text-white uppercase tracking-tighter leading-none">THE <br /> <span className="text-wine">MANTLE.</span></h2>
+                        <div className="max-w-md text-right">
+                            <p className="text-white/20 italic font-light mb-4 text-xl">"Restoring dignity to humanity through the power of the Gospel."</p>
+                            <div className="h-px w-32 bg-sky ml-auto" />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 border border-white/5">
+                        {[
+                            { title: "Prophetic Explosion", desc: "Awakening territories through the precision of the Word.", accent: "sky" },
+                            { title: "CINO Mission", desc: "The apostolic heartbeat for the fatherless and the vulnerable.", accent: "wine" },
+                            { title: "CAFO Leadership", desc: "Governing the administrative structures of the global move.", accent: "white" },
+                            { title: "LCJE Circle", desc: "Equipping commanders for the end-time harvest.", accent: "sky" }
+                        ].map((pillar, i) => (
+                            <div key={i} className="reveal reveal-up bg-[#0A0A0A] p-16 hover:bg-[#111] transition-all duration-700 group">
+                                <span className={`text-${pillar.accent} font-black text-xs uppercase tracking-widest mb-10 block`}>Pillar 0{i + 1}</span>
+                                <h4 className="text-2xl font-black text-white uppercase mb-6 group-hover:text-sky transition-colors">{pillar.title}</h4>
+                                <p className="text-white/40 font-light italic leading-relaxed">{pillar.desc}</p>
                             </div>
-                        </motion.div>
-                    </Link>
+                        ))}
+                    </div>
                 </div>
             </section>
 
-            {/* --- FINAL QUOTE --- */}
-            <section className="py-40 bg-[#080808] text-center border-t border-white/5">
-                <div className="max-w-4xl mx-auto px-6">
-                    <span className="text-4xl md:text-6xl font-light italic text-white/20">"Our mission is simple: to make the supernatural natural in the lives of men."</span>
-                    <p className="mt-12 text-[#C5A059] font-black uppercase tracking-[0.5em] text-xs">— Apostle (Dr.) Moses Famose</p>
+            {/* --- 4. THE COVENANT OF THE 5% SHARE --- */}
+            <section className="py-60 px-8 relative overflow-hidden bg-wine">
+                <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+                <div className="max-w-5xl mx-auto text-center space-y-16 relative z-10">
+                    <h2 className="reveal reveal-up text-6xl md:text-9xl font-black text-white uppercase tracking-tighter leading-[0.8]">
+                        THE 5% <br /> <span className="text-sky italic">COVENANT.</span>
+                    </h2>
+                    <p className="reveal reveal-up text-white/80 text-2xl md:text-3xl font-light italic leading-relaxed max-w-3xl mx-auto">
+                        "Your partnership is not a donation; it is a spiritual merger. As you sow into this mandate, the grace on the Apostle becomes the grace on your house."
+                    </p>
+                    <div className="reveal reveal-up flex justify-center pt-20">
+                        <div className="w-px h-40 bg-white opacity-40" />
+                    </div>
                 </div>
             </section>
+
+            {/* --- 5. THE LEGACY TIMELINE --- */}
+            <section className="py-40 px-8 max-w-[1800px] mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-20">
+                    <div className="reveal reveal-up space-y-6">
+                        <h5 className="text-sky font-black text-4xl uppercase tracking-tighter">THE VISION</h5>
+                        <p className="text-white/40 font-light italic text-lg">To see a generation restored and walking in the fullness of their prophetic identity, governed by the principles of the Kingdom.</p>
+                    </div>
+                    <div className="reveal reveal-up delay-100 space-y-6">
+                        <h5 className="text-wine font-black text-4xl uppercase tracking-tighter">THE VOICE</h5>
+                        <p className="text-white/40 font-light italic text-lg">Sounding the trumpet of restoration across Africa, Europe, and the Americas, raising an army of believers.</p>
+                    </div>
+                    <div className="reveal reveal-up delay-200 space-y-6">
+                        <h5 className="text-white font-black text-4xl uppercase tracking-tighter">THE VICTORY</h5>
+                        <p className="text-white/40 font-light italic text-lg">Thousands of lives impacted through CINO missions, prophetic crusades, and global leadership summits.</p>
+                    </div>
+                </div>
+            </section>
+
+            <style jsx>{`
+                .reveal { opacity: 0; transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
+                .reveal-up { transform: translateY(80px); }
+                .reveal-left { transform: translateX(-80px); }
+                .reveal-right { transform: translateX(80px); }
+                .reveal-visible { opacity: 1; transform: translate(0); }
+                ::-webkit-scrollbar { width: 3px; }
+                ::-webkit-scrollbar-track { background: #050505; }
+                ::-webkit-scrollbar-thumb { background: #721422; }
+            `}</style>
         </main>
     );
 }
