@@ -1,16 +1,47 @@
 @import "tailwindcss";
 
 @theme {
-  --color-sky: #0ea5e9;
-  --color-wine: #722f37;
+  /* The "Prestige" Palette */
+  --color-deep-blue: #0a192f;
+  --color-gold: #c5a059;
+  --color-gold-light: #e2c284;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #111827;
+  /* Pure Black Background for maximum luxury contrast */
+  --background: #050505;
+  --foreground: #ffffff;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+  /* Ensures the premium dark mode feel is forced across all browsers */
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Premium Selection: Deep Blue background with White text */
+::selection {
+  background-color: #0a192f;
+  color: #ffffff;
+}
+
+/* Custom Scrollbar to match the Black/Gold theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c5a059;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e2c284;
 }

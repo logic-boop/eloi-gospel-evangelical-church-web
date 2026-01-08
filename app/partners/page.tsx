@@ -1,10 +1,16 @@
 "use client";
+
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 export default function PartnershipPage() {
     const [isLoaded, setIsLoaded] = useState(false);
+    const { scrollYProgress } = useScroll();
+
+    // Parallax for that premium "depth" feel
+    const yHero = useTransform(scrollYProgress, [0, 1], [0, 300]);
+    const opacityHero = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
     useEffect(() => {
         setIsLoaded(true);
@@ -12,116 +18,148 @@ export default function PartnershipPage() {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('reveal-visible');
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.15 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }, []);
 
     return (
-        <main className={`transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} bg-[#050505] pt-32 selection:bg-sky selection:text-white`}>
+        <main className={`transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} bg-[#050505] selection:bg-[#C5A059] selection:text-black overflow-x-hidden`}>
 
-            {/* --- 1. THE MANDATE HERO --- */}
-            <section className="relative h-[80vh] flex items-center justify-center overflow-hidden border-b border-white/5">
-                <div className="absolute inset-0 z-0">
+            {/* --- 1. THE IMPERIAL HERO (ADJUSTED FOR HEADER) --- */}
+            <section className="relative h-[110vh] flex items-center justify-center overflow-hidden border-b border-white/5">
+                <motion.div style={{ opacity: opacityHero }} className="absolute inset-0 z-0">
                     <Image
                         src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070"
-                        alt="Grace" fill className="object-cover grayscale opacity-30 scale-110" priority
+                        alt="Covenant" fill className="object-cover grayscale opacity-20 scale-110" priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]" />
-                </div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]" />
+                </motion.div>
 
-                <div className="relative z-10 text-center px-6 max-w-7xl">
-                    <motion.h4
-                        initial={{ opacity: 0, letterSpacing: "0.2em" }}
-                        animate={{ opacity: 1, letterSpacing: "1em" }}
-                        className="text-sky font-black uppercase text-[10px] mb-8"
+                <div className="relative z-10 text-center px-6 max-w-7xl pt-20">
+                    <motion.div
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ duration: 1 }}
+                        className="inline-block px-8 py-2 border border-[#C5A059]/30 rounded-full mb-12"
                     >
-                        Covenant Alignment
-                    </motion.h4>
-                    <h1 className="reveal reveal-up text-[11vw] md:text-[9vw] font-black text-white uppercase tracking-tighter leading-[0.8]">
-                        KINGDOM <br /> <span className="text-transparent border-b-4 border-white/10 italic">PARTNERS.</span>
-                    </h1>
-                    <p className="reveal reveal-up delay-200 mt-12 text-white/40 text-xl font-light italic max-w-2xl mx-auto leading-relaxed">
-                        "Not because I desire a gift: but I desire fruit that may abound to your account." — Philippians 4:17
+                        <span className="text-[#C5A059] font-black uppercase tracking-[0.6em] text-[10px]">Covenant Alignment</span>
+                    </motion.div>
+
+                    <motion.div style={{ y: yHero }}>
+                        <h1 className="reveal reveal-up text-[12vw] md:text-[10vw] font-black text-white uppercase tracking-tighter leading-[0.75]">
+                            THE <span className="text-transparent outline-text italic">LEGACY.</span> <br />
+                            <span className="text-[#C5A059]">PARTNERSHIP.</span>
+                        </h1>
+                    </motion.div>
+
+                    <p className="reveal reveal-up delay-300 mt-16 text-white/40 text-xl md:text-2xl font-light italic max-w-3xl mx-auto leading-relaxed">
+                        "I desire fruit that may abound to your account." — Philippians 4:17. <br />
+                        <span className="text-white/60 block mt-4">Become one of the foundational pillars of the One in a Million mandate.</span>
                     </p>
                 </div>
             </section>
 
-            {/* --- 2. THE THREE PILLARS OF PARTNERSHIP --- */}
-            <section className="py-40 px-6 max-w-[1800px] mx-auto">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-1">
-                    {[
-                        { title: "Prophetic Crusades", desc: "Taking the fire to the unreached territories across the globe.", accent: "bg-wine" },
-                        { title: "CINO Mission", desc: "Feeding, clothing, and empowering the fatherless and the vulnerable.", accent: "bg-sky" },
-                        { title: "Global Media", desc: "Saturating the airwaves with the word of restoration and power.", accent: "bg-white" }
-                    ].map((pillar, i) => (
-                        <div key={i} className="reveal reveal-up group relative bg-[#0A0A0A] p-16 md:p-24 border border-white/5 overflow-hidden transition-all duration-700 hover:bg-[#0F0F0F]">
-                            <div className={`absolute top-0 left-0 w-full h-1 ${pillar.accent} opacity-20 group-hover:opacity-100 transition-opacity`} />
-                            <span className="text-white/5 font-black text-9xl absolute -bottom-10 -right-10">0{i + 1}</span>
-                            <h3 className="text-4xl font-black text-white uppercase tracking-tighter mb-8">{pillar.title}</h3>
-                            <p className="text-white/40 text-lg font-light italic leading-relaxed relative z-10">{pillar.desc}</p>
-                        </div>
-                    ))}
+            {/* --- 2. THE 5% VISION (SPECIAL SECTION) --- */}
+            <section className="py-40 bg-black border-y border-white/5 relative">
+                <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                    <div className="reveal reveal-left">
+                        <h4 className="text-[#C5A059] font-black uppercase tracking-[0.4em] text-xs mb-8">Strategic Alignment</h4>
+                        <h2 className="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter leading-none mb-10">
+                            GLOBAL <br /> <span className="italic opacity-30">EQUITY.</span>
+                        </h2>
+                        <p className="text-white/50 text-xl font-light italic leading-relaxed max-w-lg">
+                            An invitation to the faithful. By aligning with the mandate, you are securing a spiritual share in the harvest of 1,000,000 souls.
+                        </p>
+                    </div>
+                    <div className="reveal reveal-right relative p-12 bg-[#0A192F] border border-[#C5A059]/20 rounded-3xl overflow-hidden">
+                        <div className="absolute top-0 right-0 p-8 text-[12rem] font-black text-[#C5A059]/5 select-none">5%</div>
+                        <h3 className="text-[#C5A059] text-5xl font-black mb-6">5% SHARE</h3>
+                        <p className="text-white text-lg font-light leading-relaxed mb-8">
+                            A specific covenant offer for major stakeholders who wish to provide the 5% foundation share for global infrastructure and CINO missions.
+                        </p>
+                        <div className="h-px w-full bg-[#C5A059]/30 mb-8"></div>
+                        <p className="text-[#C5A059] font-black uppercase tracking-[0.2em] text-xs underline cursor-pointer hover:text-white transition-colors">Inquire about Strategic Partnership</p>
+                    </div>
                 </div>
             </section>
 
-            {/* --- 3. THE GIVING PORTAL: DETAILED ACCOUNTS --- */}
-            <section className="py-40 bg-[#080808] border-y border-white/5 relative overflow-hidden">
-                <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-32">
+            {/* --- 3. THE ACCOUNT LEDGER (GIVING) --- */}
+            <section className="py-40 px-6 max-w-[1600px] mx-auto">
+                <div className="text-center mb-24">
+                    <h2 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter">THE <span className="text-[#C5A059]">TREASURY</span></h2>
+                </div>
 
-                    <div className="reveal reveal-left flex flex-col justify-center">
-                        <h2 className="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter leading-none mb-12">
-                            THE <span className="text-sky">SEED</span> OF <br /> LEGACY.
-                        </h2>
-                        <div className="space-y-8 text-white/40 text-xl font-light italic leading-relaxed border-l-2 border-wine pl-12">
-                            <p>Every seed sown into this mandate is handled with the highest level of kingdom integrity and accountability.</p>
-                            <p>As you partner with the Apostle, you are not just giving to a church; you are investing in a global movement of restoration.</p>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    {/* DOMESTIC LEDGER */}
+                    <div className="reveal reveal-up bg-[#0A192F]/40 p-12 md:p-24 border border-white/5 backdrop-blur-xl group hover:border-[#C5A059]/40 transition-all duration-700">
+                        <div className="flex justify-between items-start mb-12">
+                            <h4 className="text-white text-4xl font-black uppercase tracking-tighter">Local <br /> Protocol</h4>
+                            <span className="text-[#C5A059] font-black text-xs uppercase tracking-[0.4em]">Naira — NGN</span>
+                        </div>
+                        <div className="space-y-12">
+                            <div>
+                                <p className="text-white/30 text-[10px] uppercase font-black tracking-widest mb-4">Financial Institution</p>
+                                <p className="text-3xl text-white font-light italic">Sterling Bank</p>
+                            </div>
+                            <div>
+                                <p className="text-white/30 text-[10px] uppercase font-black tracking-widest mb-4">Vault Account Number</p>
+                                <p className="text-5xl md:text-6xl text-white font-black tracking-tighter group-hover:text-[#C5A059] transition-colors">0510451553</p>
+                            </div>
+                            <div>
+                                <p className="text-white/30 text-[10px] uppercase font-black tracking-widest mb-4">Official Beneficiary</p>
+                                <p className="text-xl text-white/70 uppercase font-medium">Eloi Gospel Evangelical Church</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="reveal reveal-right space-y-8">
-                        {/* LOCAL BANKING */}
-                        <div className="bg-wine/10 border border-wine/20 p-12 rounded-sm group hover:border-wine transition-all">
-                            <p className="text-wine font-black uppercase tracking-[0.4em] text-[10px] mb-4">Local (Naira) Protocol</p>
-                            <h4 className="text-3xl font-black text-white uppercase tracking-tight mb-2">Sterling Bank</h4>
-                            <p className="text-sky text-2xl font-black tracking-widest mb-4">0510451553</p>
-                            <p className="text-white/30 text-xs font-black uppercase">Account Name: eloi gospel evangelical church</p>
+                    {/* INTERNATIONAL LEDGER */}
+                    <div className="reveal reveal-up bg-black p-12 md:p-24 border border-white/5 group hover:border-[#C5A059]/40 transition-all duration-700">
+                        <div className="flex justify-between items-start mb-12">
+                            <h4 className="text-white text-4xl font-black uppercase tracking-tighter">Global <br /> Protocol</h4>
+                            <span className="text-[#C5A059] font-black text-xs uppercase tracking-[0.4em]">USD — GBP — EUR</span>
                         </div>
-
-                        {/* INTERNATIONAL PROTOCOL */}
-                        <div className="bg-sky/10 border border-sky/20 p-12 rounded-sm group hover:border-sky transition-all">
-                            <p className="text-sky font-black uppercase tracking-[0.4em] text-[10px] mb-4">International (USD/GBP) Protocol</p>
-                            <h4 className="text-3xl font-black text-white uppercase tracking-tight mb-4">Online Gateway</h4>
-                            <button className="w-full bg-white text-black py-6 font-black uppercase tracking-[0.6em] text-[10px] hover:bg-sky hover:text-white transition-all">
-                                Launch Secure Payment
+                        <div className="space-y-12">
+                            <p className="text-white/40 text-xl font-light italic leading-relaxed">
+                                For international bank transfers, wire protocols, or cryptocurrency partnership, please utilize our secure portal.
+                            </p>
+                            <button className="w-full py-10 border border-[#C5A059]/30 bg-transparent group-hover:bg-[#C5A059] transition-all duration-700 relative overflow-hidden">
+                                <span className="relative z-10 text-[#C5A059] group-hover:text-black font-black uppercase tracking-[0.8em] text-xs">Access Secure Gateway</span>
                             </button>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* --- 4. THE COVENANT PARTNER FORM --- */}
-            <section className="py-40 px-6 max-w-4xl mx-auto text-center">
-                <div className="reveal reveal-up space-y-12">
-                    <h2 className="text-4xl font-black text-white uppercase tracking-tighter">Become a <span className="text-sky">Covenant</span> Partner</h2>
-                    <p className="text-white/40 text-lg font-light italic">Leave your details below to receive a personal welcome call from the Partnership Office and a monthly prophetic update from the Apostle.</p>
+            {/* --- 4. COVENANT FORM --- */}
+            <section className="py-40 px-6 bg-[#050505] border-t border-white/5">
+                <div className="max-w-4xl mx-auto reveal reveal-up">
+                    <div className="text-center mb-20">
+                        <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-6">SEAL YOUR <span className="text-[#C5A059]">COVENANT.</span></h2>
+                        <p className="text-white/40 italic font-light">Enter the registry of global partners to receive Apostolic updates.</p>
+                    </div>
 
-                    <form className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase text-white/20 tracking-widest">Full Name</label>
-                            <input type="text" className="w-full bg-transparent border-b border-white/10 py-4 focus:border-sky outline-none transition-all text-white font-light" placeholder="Identity" />
+                    <form className="space-y-16">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+                            <div className="border-b border-white/10 pb-4 focus-within:border-[#C5A059] transition-colors">
+                                <label className="text-[10px] font-black uppercase text-[#C5A059] tracking-widest mb-4 block">Identity</label>
+                                <input type="text" className="w-full bg-transparent outline-none text-white text-2xl font-light italic" placeholder="Full Name" />
+                            </div>
+                            <div className="border-b border-white/10 pb-4 focus-within:border-[#C5A059] transition-colors">
+                                <label className="text-[10px] font-black uppercase text-[#C5A059] tracking-widest mb-4 block">Communication</label>
+                                <input type="tel" className="w-full bg-transparent outline-none text-white text-2xl font-light italic" placeholder="WhatsApp Number" />
+                            </div>
                         </div>
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase text-white/20 tracking-widest">WhatsApp Number</label>
-                            <input type="tel" className="w-full bg-transparent border-b border-white/10 py-4 focus:border-sky outline-none transition-all text-white font-light" placeholder="+234..." />
-                        </div>
-                        <button className="md:col-span-2 bg-wine text-white py-8 font-black uppercase tracking-[0.8em] text-[10px] hover:bg-white hover:text-black transition-all mt-12">
-                            Join the Mandate
+                        <button className="w-full group py-12 bg-black border border-white/10 hover:border-[#C5A059] transition-all duration-700 relative">
+                            <span className="text-white group-hover:text-[#C5A059] font-black uppercase tracking-[1em] text-xs">Enroll in the Mandate</span>
                         </button>
                     </form>
                 </div>
             </section>
 
             <style jsx>{`
+                .outline-text {
+                    -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+                }
                 .reveal { opacity: 0; transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
                 .reveal-up { transform: translateY(60px); }
                 .reveal-left { transform: translateX(-60px); }
