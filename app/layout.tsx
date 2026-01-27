@@ -12,12 +12,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isPartnershipOpen, setIsPartnershipOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [mounted, setMounted] = useState(false); // Fix for hydration
   const pathname = usePathname();
 
   const OFFICIAL_ACC = "0510451553";
   const OFFICIAL_EMAIL = "eloigospelevangelicalchurch@gmail.com";
 
   useEffect(() => {
+    setMounted(true);
     document.title = "Eloi Gospel Evangelical Church | One in a Million";
   }, []);
 
@@ -70,14 +72,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   ];
 
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/church-logo2.png" />
+        <link rel="icon" href="/dove-only.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
       </head>
-      <body className="bg-[#050505] text-white selection:bg-[#C5A059] selection:text-[#0A192F] antialiased overflow-x-hidden w-full">
-
-        {/* HEADER: Ultra-Deep Blue & Gold Accents */}
+      <body
+        className="bg-[#050505] text-white selection:bg-[#C5A059] selection:text-[#0A192F] antialiased overflow-x-hidden w-full"
+        suppressHydrationWarning
+      >
+        {/* HEADER */}
         <header
           className={`fixed top-0 w-full z-[100] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] ${scrolled
             ? 'h-20 bg-[#0A192F]/60 backdrop-blur-2xl border-b border-white/5 shadow-2xl'
@@ -85,7 +89,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }`}
         >
           <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
-
             {/* Logo Section */}
             <Link href="/" className="flex items-center gap-4 group z-[110]">
               <div className="relative w-16 h-16 flex items-center justify-center transition-transform duration-700 group-hover:scale-105">
@@ -97,11 +100,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </text>
                   </svg>
                 </div>
-                <div className="relative w-14 h-14 rounded-full border-2 border-[#C5A059]/40 shadow-[0_0_20px_rgba(197,160,89,0.2)] overflow-hidden bg-white">
-                  <Image src="/church-logo2.png" alt="EGEC Logo" fill sizes="62px" className="object-contain" />
+                <div className="relative w-14 h-14 rounded-full border-2 border-[#C5A059]/40 shadow-[0_0_20px_rgba(197,160,89,0.2)] overflow-hidden flex items-center justify-center">
+                  <Image
+                    src="/dove-only.png"
+                    alt="EGEC International Logo"
+                    fill
+                    sizes="62px"
+                    className="object-cover"
+                    priority
+                  />
                 </div>
               </div>
-
               <div className="hidden lg:flex flex-col">
                 <span className="font-black text-lg tracking-tighter uppercase leading-none text-white">
                   ELOI GOSPEL EVANGELICAL CHURCH
@@ -120,8 +129,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <span className={`absolute -bottom-2 left-0 h-[1px] bg-[#C5A059] transition-all duration-500 ${pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
                 </Link>
               ))}
-
-              {/* Missions Dropdown */}
               <div className="relative group/drop" onMouseEnter={() => setIsPartnershipOpen(true)} onMouseLeave={() => setIsPartnershipOpen(false)}>
                 <button className="text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 text-white/80 hover:text-[#C5A059] transition-all duration-500">
                   Missions
@@ -136,7 +143,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   ))}
                 </div>
               </div>
-
               <button
                 onClick={() => setIsGiveModalOpen(true)}
                 className="bg-white text-[#0A192F] hover:bg-[#C5A059] hover:text-white px-8 py-3.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl transition-all duration-500 hover:scale-105 active:scale-95"
@@ -145,7 +151,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </button>
             </nav>
 
-            {/* Mobile Toggle */}
             <button onClick={() => setIsOpen(!isOpen)} className="md:hidden w-11 h-11 flex flex-col items-center justify-center z-[110] rounded-full bg-white/5 border border-white/10 transition-colors">
               <span className={`w-5 h-[1.5px] transition-all duration-500 bg-[#C5A059] ${isOpen ? 'rotate-45 translate-y-[0.75px]' : '-translate-y-1'}`}></span>
               <span className={`w-5 h-[1.5px] mt-1 transition-all duration-500 bg-[#C5A059] ${isOpen ? '-rotate-45 -translate-y-[5.5px]' : 'translate-y-1'}`}></span>
@@ -153,24 +158,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
 
-        {/* MOBILE MENU - Deep Blue & Gold */}
+        {/* MOBILE MENU */}
         <div className={`fixed inset-0 z-[90] md:hidden transition-all duration-700 ${isOpen ? 'visible' : 'invisible'}`}>
-          <div
-            className={`absolute inset-0 bg-[#050505]/95 backdrop-blur-xl transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
-            onClick={() => setIsOpen(false)}
-          ></div>
-
+          <div className={`absolute inset-0 bg-[#050505]/95 backdrop-blur-xl transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`} onClick={() => setIsOpen(false)}></div>
           <nav className={`absolute top-0 right-0 w-[85%] h-[100dvh] bg-[#0A192F] border-l border-[#C5A059]/10 flex flex-col transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
             <div className="flex-1 overflow-y-auto px-8 pt-32 pb-10 scrollbar-hide">
               <div className="flex flex-col gap-8">
                 <p className="text-[#C5A059]/40 font-black text-[9px] uppercase tracking-[0.5em]">Navigation</p>
                 {navLinks.map((link, i) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    style={{ transitionDelay: `${i * 50}ms` }}
-                    className={`text-4xl font-black uppercase tracking-tighter text-white transition-all duration-500 ${isOpen ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'}`}
-                  >
+                  <Link key={link.name} href={link.href} style={{ transitionDelay: `${i * 50}ms` }} className={`text-4xl font-black uppercase tracking-tighter text-white transition-all duration-500 ${isOpen ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'}`}>
                     {link.name}
                   </Link>
                 ))}
@@ -178,12 +174,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <p className="text-[#C5A059]/40 font-black text-[9px] uppercase tracking-[0.5em]">Missions</p>
                 <div className="flex flex-col gap-6">
                   {partners.map((p, i) => (
-                    <Link
-                      key={p.name}
-                      href={p.href}
-                      style={{ transitionDelay: `${(navLinks.length + i) * 50}ms` }}
-                      className={`group transition-all duration-500 ${isOpen ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'}`}
-                    >
+                    <Link key={p.name} href={p.href} style={{ transitionDelay: `${(navLinks.length + i) * 50}ms` }} className={`group transition-all duration-500 ${isOpen ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'}`}>
                       <p className="text-xl font-black uppercase text-white/90 group-hover:text-[#C5A059] transition-colors">{p.name}</p>
                       <p className="text-[9px] text-white/30 uppercase tracking-[0.2em] mt-1">{p.sub}</p>
                     </Link>
@@ -191,10 +182,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </div>
               </div>
               <div className={`mt-16 transition-all duration-1000 delay-500 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <button
-                  onClick={() => { setIsGiveModalOpen(true); setIsOpen(false); }}
-                  className="w-full py-6 bg-[#C5A059] text-[#0A192F] rounded-2xl font-black uppercase tracking-[0.3em] text-[10px] shadow-2xl"
-                >
+                <button onClick={() => { setIsGiveModalOpen(true); setIsOpen(false); }} className="w-full py-6 bg-[#C5A059] text-[#0A192F] rounded-2xl font-black uppercase tracking-[0.3em] text-[10px] shadow-2xl">
                   Give Online
                 </button>
               </div>
@@ -202,7 +190,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </nav>
         </div>
 
-        {/* GIVE MODAL - The Prestige Look */}
+        {/* GIVE MODAL */}
         {isGiveModalOpen && (
           <div className="fixed inset-0 z-[200] flex items-center justify-center px-6">
             <div className="absolute inset-0 bg-[#050505]/95 backdrop-blur-2xl" onClick={() => setIsGiveModalOpen(false)} />
@@ -232,7 +220,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
 
-        {/* FOOTER - Pure Deep Blue & Gold */}
+        {/* FOOTER */}
         <footer className="bg-[#0A192F] pt-32 pb-12 text-white px-6 w-full overflow-hidden border-t border-[#C5A059]/10">
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-20">
             <div className="md:col-span-2 space-y-10">
@@ -245,12 +233,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="space-y-8">
               <h4 className="text-[#C5A059] font-black uppercase text-[10px] tracking-[0.5em]">Global Presence</h4>
               <ul className="space-y-4 text-white/60 text-[11px] font-black uppercase tracking-widest">
-                <li className="flex items-center gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C5A059]" /> Ibadan, Nigeria
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C5A059]" /> North Carolina, USA
-                </li>
+                <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 rounded-full bg-[#C5A059]" /> Ibadan, Nigeria</li>
+                <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 rounded-full bg-[#C5A059]" /> North Carolina, USA</li>
               </ul>
             </div>
             <div className="space-y-10">
@@ -265,7 +249,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
           <div className="max-w-7xl mx-auto mt-24 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-            <p className="text-[10px] text-white/30 uppercase tracking-[0.5em] font-bold">© {new Date().getFullYear()} E.G.E.C. One In A Million Generation.</p>
+            <p className="text-[10px] text-white/30 uppercase tracking-[0.5em] font-bold">
+              © {mounted ? new Date().getFullYear() : '2026'} E.G.E.C. One In A Million Generation.
+            </p>
             <div className="flex gap-10 text-[10px] font-black uppercase text-white/30 tracking-[0.3em]">
               <span className="hover:text-[#C5A059] cursor-pointer transition-colors">Privacy</span>
               <span className="hover:text-[#C5A059] cursor-pointer transition-colors">Terms</span>
