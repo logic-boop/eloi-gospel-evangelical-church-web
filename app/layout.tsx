@@ -96,7 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <svg viewBox="0 0 100 100" className="w-full h-full">
                     <path id="headerPath" d="M 50, 50 m -38, 0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" fill="none" />
                     <text className="font-black text-[7.5px] uppercase tracking-[0.25em] fill-[#C5A059]">
-                      <textPath href="#headerPath">ELOI GOSPEL EVANGELICAL CHURCH • (EGEC)</textPath>
+                      <textPath href="#headerPath">ELOI GOSPEL EVANGELICAL CHURCH</textPath>
                     </text>
                   </svg>
                 </div>
@@ -116,7 +116,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   ELOI GOSPEL EVANGELICAL CHURCH
                 </span>
                 <span className="font-bold text-[12px] tracking-[0.3em] uppercase leading-none mt-1 text-[#C5A059]">
-                  KING'S WORSHIP CENTER • (KWC)
+                  KING'S WORSHIP CENTER
                 </span>
               </div>
             </Link>
